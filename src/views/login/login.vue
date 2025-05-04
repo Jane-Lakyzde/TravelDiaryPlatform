@@ -56,7 +56,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { register } from '@/api/auth'
+import { login } from '@/api/auth'
 
 const router = useRouter()
 const loginForm = ref(null)
@@ -85,9 +85,9 @@ const handleLogin = async () => {
   
   try {
     await loginForm.value.validate()
-    await register(formInline.value)
+    await login(formInline.value)
     ElMessage.success('登录成功')
-    router.push(formInline.value.role === 'admin' ? '/admin' : '/home')
+    router.push(formInline.value.role === 'admin' ? '/admin' : `/users/${formInline.value.username}/home`)
   } catch (err) {
     ElMessage.error(err.response?.data?.message || '登录失败')
   }

@@ -12,6 +12,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 const route = useRoute()
 console.log('当前路径:', route.path)
 </script>
+
 <style>
 /* 全局样式可写在这里 */
 body {
@@ -20,3 +21,4 @@ body {
   background-color: #f5f5f5;
 }
 </style>
+

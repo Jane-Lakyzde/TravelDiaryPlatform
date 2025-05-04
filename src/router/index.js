@@ -12,6 +12,9 @@ import pending from '../views/admin/pending.vue'
 //登录界面
 import login from '../views/login/login.vue'
 import register from '../views/login/register.vue'
+//父组件
+import userLayout from '../views/layout/userLayout.vue'
+import adminLayout from '../views/layout/adminLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,24 +36,24 @@ const router = createRouter({
     //动态路由+嵌套路由
     {
       path: '/users/:id',
-      component: login,
+      component: userLayout,
       children: [
         { path: '', redirect: 'home' },
-        { path: '/home', component: home, },
-        { path: '/find', component: find, },
-        { path: '/my', component: my, },
-        { path: '/post', component: post, },
+        { path: 'home', component: home, },
+        { path: 'find', component: find, },
+        { path: 'my', component: my, },
+        { path: 'post', component: post, },
       ]
     },
     //静态路由+嵌套路由
     {
       path: '/admin',
-      component: admin,
+      component: adminLayout,
       children: [
         { path: '', redirect: 'pending' },
-        { path: '/pending', component: pending },
-        { path: '/approve', component: approve },
-        { path: '/reject', component: reject }
+        { path: 'pending', component: pending },
+        { path: 'approve', component: approve },
+        { path: 'reject', component: reject }
       ]
     }
   ],
