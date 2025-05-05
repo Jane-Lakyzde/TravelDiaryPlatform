@@ -1,3 +1,17 @@
+-- 创建数据库
+CREATE DATABASE users;
+
+-- 使用数据库
+USE users;
+
+-- 创建表
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES (1, 'sad', '$2b$10$sC6cp7plxllecgh6ARVJ2uLiXYvpmSl9t6G1wZlmPiox02Lahm9zG', '2025-04-24 14:29:23');
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES (6, 'Siying Rao', '$2b$10$fMsyLdE85RLlJzPT363xbeiGQ/2QaeWEao2Ah7Xe7JbDE1QtlomvC', '2025-04-24 16:11:03');
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES (7, 'www', '$2b$10$lEHrqcjLtRM0vbp00C1APeJ8zXr/g2goFBbSAqsmq4eu6.kJKelD2', '2025-04-24 16:12:44');
