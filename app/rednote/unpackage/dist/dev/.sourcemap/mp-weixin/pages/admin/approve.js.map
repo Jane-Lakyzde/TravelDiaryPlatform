@@ -1,0 +1,1 @@
+{"version":3,"file":"approve.js","sources":["../../../biji/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvYWRtaW4vYXBwcm92ZS52dWU"],"sourcesContent":["import MiniProgramPage from 'D:/gamee_js/app/rednote/pages/admin/approve.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;AACA,GAAG,WAAW,eAAe;"}

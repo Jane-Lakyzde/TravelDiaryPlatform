@@ -1,0 +1,109 @@
+
+.find-container {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background-color: #ffffff;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+  padding: 20rpx;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333333;
+}
+.recommend-container {
+  margin-top: 100rpx;
+  flex: 1;
+  padding: 20rpx;
+}
+.user-card {
+  background-color: #ffffff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+.user-info {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30rpx;
+}
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+.user-details {
+  margin-left: 30rpx;
+  flex: 1;
+}
+.username {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+.user-id {
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 10rpx;
+  display: block;
+}
+.user-bio {
+  font-size: 28rpx;
+  color: #666666;
+  display: block;
+}
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30rpx;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #eeeeee;
+  border-bottom: 1rpx solid #eeeeee;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stat-value {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #333333;
+}
+.stat-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-top: 4rpx;
+}
+.user-actions {
+  display: flex;
+  justify-content: center;
+}
+.follow-btn {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  background-color: #007AFF;
+  color: #ffffff;
+}
+.follow-btn.following {
+  background-color: #f5f5f5;
+  color: #666666;
+}

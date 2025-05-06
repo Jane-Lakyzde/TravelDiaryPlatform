@@ -1,0 +1,113 @@
+{
+  "pages": [
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/login/register",
+      "style": {
+        "navigationBarTitleText": "注册"
+      }
+    },
+    {
+      "path": "pages/user/home",
+      "style": {
+        "navigationBarTitleText": "首页"
+      }
+    },
+    {
+      "path": "pages/user/find",
+      "style": {
+        "navigationBarTitleText": "发现"
+      }
+    },
+    {
+      "path": "pages/user/my",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/user/post",
+      "style": {
+        "navigationBarTitleText": "发布"
+      }
+    },
+    {
+      "path": "pages/user/msg",
+      "style": {
+        "navigationBarTitleText": "发布"
+      }
+    },
+    {
+      "path": "pages/admin/admin",
+      "style": {
+        "navigationBarTitleText": "管理"
+      }
+    },
+    {
+      "path": "pages/admin/approve",
+      "style": {
+        "navigationBarTitleText": "已通过"
+      }
+    },
+    {
+      "path": "pages/admin/reject",
+      "style": {
+        "navigationBarTitleText": "已拒绝"
+      }
+    },
+    {
+      "path": "pages/admin/pending",
+      "style": {
+        "navigationBarTitleText": "待审核"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "红笔记",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff0000",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/user/home",
+        "text": "首页",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home.png"
+      },
+      {
+        "pagePath": "pages/user/find",
+        "text": "发现",
+        "iconPath": "static/tabbar/find.png",
+        "selectedIconPath": "static/tabbar/find.png"
+      },
+      {
+        "pagePath": "pages/user/post",
+        "text": "发布",
+        "iconPath": "static/tabbar/post.png",
+        "selectedIconPath": "static/tabbar/post.png"
+      },
+      {
+        "pagePath": "pages/user/msg",
+        "text": "消息",
+        "iconPath": "static/tabbar/msg.png",
+        "selectedIconPath": "static/tabbar/msg.png"
+      },
+      {
+        "pagePath": "pages/user/my",
+        "text": "我的",
+        "iconPath": "static/tabbar/my.png",
+        "selectedIconPath": "static/tabbar/my.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"pending.js","sources":["../../../biji/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvYWRtaW4vcGVuZGluZy52dWU"],"sourcesContent":["import MiniProgramPage from 'D:/gamee_js/app/rednote/pages/admin/pending.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;AACA,GAAG,WAAW,eAAe;"}

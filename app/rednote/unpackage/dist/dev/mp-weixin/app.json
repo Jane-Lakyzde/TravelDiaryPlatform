@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/login/register",
+    "pages/user/home",
+    "pages/user/find",
+    "pages/user/my",
+    "pages/user/post",
+    "pages/user/msg",
+    "pages/admin/admin",
+    "pages/admin/approve",
+    "pages/admin/reject",
+    "pages/admin/pending"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "红笔记",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff0000",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/user/home",
+        "text": "首页",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home.png"
+      },
+      {
+        "pagePath": "pages/user/find",
+        "text": "发现",
+        "iconPath": "static/tabbar/find.png",
+        "selectedIconPath": "static/tabbar/find.png"
+      },
+      {
+        "pagePath": "pages/user/post",
+        "text": "发布",
+        "iconPath": "static/tabbar/post.png",
+        "selectedIconPath": "static/tabbar/post.png"
+      },
+      {
+        "pagePath": "pages/user/msg",
+        "text": "消息",
+        "iconPath": "static/tabbar/msg.png",
+        "selectedIconPath": "static/tabbar/msg.png"
+      },
+      {
+        "pagePath": "pages/user/my",
+        "text": "我的",
+        "iconPath": "static/tabbar/my.png",
+        "selectedIconPath": "static/tabbar/my.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
