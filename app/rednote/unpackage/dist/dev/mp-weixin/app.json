@@ -10,7 +10,20 @@
     "pages/admin/admin",
     "pages/admin/approve",
     "pages/admin/reject",
-    "pages/admin/pending"
+    "pages/admin/pending",
+    "pages/sidebar/discover-friends/index",
+    "pages/sidebar/creator-center/index",
+    "pages/sidebar/drafts/index",
+    "pages/sidebar/comments/index",
+    "pages/sidebar/history/index",
+    "pages/sidebar/orders/index",
+    "pages/sidebar/cart/index",
+    "pages/sidebar/wallet/index",
+    "pages/sidebar/miniapp/index",
+    "pages/sidebar/community-guidelines/index",
+    "pages/sidebar/scan/index",
+    "pages/sidebar/support/index",
+    "pages/sidebar/settings/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",

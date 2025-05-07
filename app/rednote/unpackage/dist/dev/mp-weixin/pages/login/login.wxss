@@ -1,87 +1,134 @@
 
 .login-container {
   min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.login-header {
+  width: 100vw;
+  display: relative;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40rpx 40rpx 0 40rpx;
+  position: relative;
+}
+.login-help {
+  font-size: 28rpx;
+  color: #999;
+  position: absolute;
+  right: 60rpx;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 60rpx;
+  right: 0;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.08);
+  z-index: 10;
+  min-width: 220rpx;
+}
+.dropdown-item {
+  padding: 28rpx 40rpx;
+  font-size: 28rpx;
+  color: #333;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.dropdown-item:last-child { border-bottom: none;
+}
+.login-logo {
+  margin: 120rpx 0 80rpx 0;
+}
+.login-logo image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 24rpx;
+}
+.login-btn.wx-btn {
+  width: 80vw;
+  height: 88rpx;
+  background: #3cc51f;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+.icon-wechat:before { content: '\e60b'; font-size: 40rpx; margin-right: 18rpx;
+}
+.login-phone {
+  color: #888;
+  font-size: 30rpx;
+  margin-bottom: 80rpx;
+  text-align: center;
+}
+.login-other-title {
+  color: #aaa;
+  font-size: 26rpx;
+  margin-bottom: 24rpx;
+}
+.login-other-icons {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f5f7fa;
-  padding: 30rpx;
+  gap: 60rpx;
+  margin-bottom: 80rpx;
+  position: relative;
 }
-.login-card {
-  width: 100%;
-  max-width: 800rpx;
-  background-color: #ffffff;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-  border: 6rpx solid #000000;
-}
-.card-header {
-  padding: 40rpx;
-  text-align: center;
-  border-bottom: 2rpx solid #eeeeee;
-}
-.header-text {
-  font-size: 48rpx;
-  font-weight: bold;
-  color: #333333;
-}
-.login-form {
-  padding: 40rpx;
-}
-.form-item {
-  margin-bottom: 30rpx;
-}
-.role-picker {
-  width: 100%;
-  height: 88rpx;
-  background-color: #f5f5f5;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-}
-.picker-content {
-  height: 88rpx;
+.icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  background: #f5f5f5;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 32rpx;
-  color: #333333;
+  justify-content: center;
 }
-.form-input {
-  width: 100%;
-  height: 88rpx;
-  background-color: #f5f5f5;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-  font-size: 32rpx;
+.icon-weibo:before { content: '\e60c'; font-size: 38rpx;
 }
-.login-btn {
-  width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
-  background-color: #007AFF;
-  color: #ffffff;
-  font-size: 32rpx;
-  border-radius: 44rpx;
-  margin-top: 40rpx;
+.icon-qq:before { content: '\e60d'; font-size: 38rpx;
 }
-.register-link {
-  text-align: center;
-  padding: 30rpx;
-  font-size: 28rpx;
-  color: #666666;
+.other-menu {
+  left: 0;
+  right: 0;
+  top: 80rpx;
+  min-width: 200rpx;
 }
-.link {
-  color: #007AFF;
-  margin-left: 10rpx;
+.login-protocol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #888;
+  margin-top: auto;
+  margin-bottom: 40rpx;
+  width: 90vw;
 }
-
-/* 图标字体 */
-@font-face {
-  font-family: 'iconfont';
-  src: url('//at.alicdn.com/t/font_xxx.woff2') format('woff2');
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 2rpx solid #bbb;
+  margin-right: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
 }
-.iconfont {
-  font-family: 'iconfont';
+.checkbox.checked {
+  border-color: #3cc51f;
+  background: #3cc51f;
 }
-.icon-arrow-down:before { content: '\e6e9';
+.icon-checked:before { content: '\2714'; color: #fff; font-size: 28rpx;
+}
+.icon-unchecked:before { content: '';
+}
+.protocol-text {
+  color: #888;
+  font-size: 24rpx;
 }

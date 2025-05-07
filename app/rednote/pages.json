@@ -65,6 +65,58 @@
       "style": {
         "navigationBarTitleText": "待审核"
       }
+    },
+    {
+      "path": "pages/sidebar/discover-friends/index",
+      "style": { "navigationBarTitleText": "发现好友" }
+    },
+    {
+      "path": "pages/sidebar/creator-center/index",
+      "style": { "navigationBarTitleText": "创作者中心" }
+    },
+    {
+      "path": "pages/sidebar/drafts/index",
+      "style": { "navigationBarTitleText": "我的草稿" }
+    },
+    {
+      "path": "pages/sidebar/comments/index",
+      "style": { "navigationBarTitleText": "我的评论" }
+    },
+    {
+      "path": "pages/sidebar/history/index",
+      "style": { "navigationBarTitleText": "浏览记录" }
+    },
+    {
+      "path": "pages/sidebar/orders/index",
+      "style": { "navigationBarTitleText": "订单" }
+    },
+    {
+      "path": "pages/sidebar/cart/index",
+      "style": { "navigationBarTitleText": "购物车" }
+    },
+    {
+      "path": "pages/sidebar/wallet/index",
+      "style": { "navigationBarTitleText": "钱包" }
+    },
+    {
+      "path": "pages/sidebar/miniapp/index",
+      "style": { "navigationBarTitleText": "小程序" }
+    },
+    {
+      "path": "pages/sidebar/community-guidelines/index",
+      "style": { "navigationBarTitleText": "社区公约" }
+    },
+    {
+      "path": "pages/sidebar/scan/index",
+      "style": { "navigationBarTitleText": "扫一扫" }
+    },
+    {
+      "path": "pages/sidebar/support/index",
+      "style": { "navigationBarTitleText": "帮助与客服" }
+    },
+    {
+      "path": "pages/sidebar/settings/index",
+      "style": { "navigationBarTitleText": "设置" }
     }
   ],
   "globalStyle": {

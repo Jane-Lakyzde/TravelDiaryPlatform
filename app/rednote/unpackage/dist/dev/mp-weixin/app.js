@@ -13,6 +13,19 @@ if (!Math) {
   "./pages/admin/approve.js";
   "./pages/admin/reject.js";
   "./pages/admin/pending.js";
+  "./pages/sidebar/discover-friends/index.js";
+  "./pages/sidebar/creator-center/index.js";
+  "./pages/sidebar/drafts/index.js";
+  "./pages/sidebar/comments/index.js";
+  "./pages/sidebar/history/index.js";
+  "./pages/sidebar/orders/index.js";
+  "./pages/sidebar/cart/index.js";
+  "./pages/sidebar/wallet/index.js";
+  "./pages/sidebar/miniapp/index.js";
+  "./pages/sidebar/community-guidelines/index.js";
+  "./pages/sidebar/scan/index.js";
+  "./pages/sidebar/support/index.js";
+  "./pages/sidebar/settings/index.js";
 }
 const _sfc_main = {
   onLaunch: function() {

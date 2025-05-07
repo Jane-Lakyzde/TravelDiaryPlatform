@@ -1,251 +1,200 @@
 <template>
   <view class="login-container">
-    <view class="login-card">
-      <view class="card-header">
-        <text class="header-text">登录</text>
+    <!-- 顶部 -->
+    <view class="login-header">
+      <text class="login-help" @tap="toggleHelp">遇到问题</text>
+      <view v-if="showHelp" class="dropdown-menu" @tap.stop>
+        <view class="dropdown-item">无法接收验证码</view>
+        <view class="dropdown-item">微信登录失败</view>
+        <view class="dropdown-item">联系客服</view>
       </view>
-      
-      <view class="login-form">
-        <view class="form-item">
-          <picker 
-            :value="roleIndex" 
-            :range="roles" 
-            range-key="label"
-            @change="handleRoleChange"
-            class="role-picker"
-          >
-            <view class="picker-content">
-              <text>{{ formInline.role ? roles[roleIndex].label : '请选择登录身份' }}</text>
-              <text class="iconfont icon-arrow-down"></text>
-            </view>
-          </picker>
-        </view>
-
-        <view class="form-item">
-          <input 
-            v-model="formInline.username" 
-            placeholder="请输入用户名"
-            class="form-input"
-            :maxlength="20"
-          />
-        </view>
-
-        <view class="form-item">
-          <input 
-            v-model="formInline.password" 
-            type="password"
-            placeholder="请输入密码"
-            class="form-input"
-            :maxlength="20"
-            password
-          />
-        </view>
-
-        <button class="login-btn" @tap="handleLogin">登录</button>
+    </view>
+    <!-- LOGO -->
+    <view class="login-logo">
+      <image src="https://via.placeholder.com/120x120?text=LOGO" mode="aspectFit" />
+    </view>
+    <!-- 微信一键登录 -->
+    <button class="login-btn wx-btn">
+      <text class="iconfont icon-wechat"></text>
+      微信一键登录
+    </button>
+    <!-- 手机号登录 -->
+    <view class="login-phone" @tap="goPhoneLogin">手机号登录</view>
+    <!-- 其它方式登录 -->
+    <view class="login-other-title">其它方式登录</view>
+    <view class="login-other-icons">
+      <view class="icon-wrap" @tap="toggleOtherMenu">
+        <text class="iconfont icon-wechat"></text>
       </view>
-
-      <view class="register-link">
-        <text>还没有账号？</text>
-        <text class="link" @tap="goToRegister">立即注册</text>
+      <view class="icon-wrap" @tap="toggleOtherMenu">
+        <text class="iconfont icon-weibo"></text>
       </view>
+      <view class="icon-wrap" @tap="toggleOtherMenu">
+        <text class="iconfont icon-qq"></text>
+      </view>
+      <view v-if="showOtherMenu" class="dropdown-menu other-menu" @tap.stop>
+        <view class="dropdown-item">暂未开通，敬请期待</view>
+      </view>
+    </view>
+    <!-- 协议勾选 -->
+    <view class="login-protocol">
+      <text class="checkbox" :class="{checked: checked}" @tap="checked = !checked">
+        <text v-if="checked" class="iconfont icon-checked"></text>
+        <text v-else class="iconfont icon-unchecked"></text>
+      </text>
+      <text class="protocol-text">已阅读并同意《用户协议》《隐私政策》《买家须知》。</text>
     </view>
   </view>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+const showHelp = ref(false)
+const showOtherMenu = ref(false)
+const checked = ref(false)
 
-const formInline = ref({
-  username: '',
-  password: '',
-  role: ''
-})
-
-const roles = [
-  { label: '用户', value: 'user' },
-  { label: '管理员', value: 'admin' }
-]
-
-const roleIndex = ref(0)
-
-const handleRoleChange = (e) => {
-  roleIndex.value = e.detail.value
-  formInline.value.role = roles[roleIndex.value].value
+const closeLogin = () => {
+  uni.navigateBack()
 }
-
-const handleLogin = async () => {
-  // 表单验证
-  if (!formInline.value.role) {
-    uni.showToast({
-      title: '请选择登录身份',
-      icon: 'none'
-    })
-    return
-  }
-  
-  if (!formInline.value.username) {
-    uni.showToast({
-      title: '请输入用户名',
-      icon: 'none'
-    })
-    return
-  }
-  
-  if (formInline.value.username.length < 3) {
-    uni.showToast({
-      title: '用户名长度不能小于3个字符',
-      icon: 'none'
-    })
-    return
-  }
-  
-  if (!formInline.value.password) {
-    uni.showToast({
-      title: '请输入密码',
-      icon: 'none'
-    })
-    return
-  }
-  
-  if (formInline.value.password.length < 6) {
-    uni.showToast({
-      title: '密码长度不能小于6个字符',
-      icon: 'none'
-    })
-    return
-  }
-
-  try {
-    // 这里添加登录API调用
-    // const res = await login(formInline.value)
-    
-    uni.showToast({
-      title: '登录成功',
-      icon: 'success'
-    })
-    
-    // 根据角色跳转到不同页面
-    if (formInline.value.role === 'admin') {
-      uni.reLaunch({
-        url: '/pages/admin/pending'
-      })
-    } else {
-      uni.reLaunch({
-        url: `/pages/user/home?username=${formInline.value.username}`
-      })
-    }
-  } catch (err) {
-    uni.showToast({
-      title: err.message || '登录失败',
-      icon: 'none'
-    })
-  }
+const toggleHelp = () => {
+  showHelp.value = !showHelp.value
+  showOtherMenu.value = false
 }
-
-const goToRegister = () => {
-  uni.navigateTo({
-    url: '/pages/login/register'
-  })
+const toggleOtherMenu = () => {
+  showOtherMenu.value = !showOtherMenu.value
+  showHelp.value = false
+}
+const goPhoneLogin = () => {
+  uni.navigateTo({ url: '/pages/login/phone.vue' })
 }
 </script>
 
 <style>
 .login-container {
   min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.login-header {
+  width: 100vw;
+  display: relative;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40rpx 40rpx 0 40rpx;
+  position: relative;
+}
+.login-help {
+  font-size: 28rpx;
+  color: #999;
+  position: absolute;
+  right: 60rpx;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 60rpx;
+  right: 0;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.08);
+  z-index: 10;
+  min-width: 220rpx;
+}
+.dropdown-item {
+  padding: 28rpx 40rpx;
+  font-size: 28rpx;
+  color: #333;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.dropdown-item:last-child { border-bottom: none; }
+.login-logo {
+  margin: 120rpx 0 80rpx 0;
+}
+.login-logo image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 24rpx;
+}
+.login-btn.wx-btn {
+  width: 80vw;
+  height: 88rpx;
+  background: #3cc51f;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+.icon-wechat:before { content: '\e60b'; font-size: 40rpx; margin-right: 18rpx; }
+.login-phone {
+  color: #888;
+  font-size: 30rpx;
+  margin-bottom: 80rpx;
+  text-align: center;
+}
+.login-other-title {
+  color: #aaa;
+  font-size: 26rpx;
+  margin-bottom: 24rpx;
+}
+.login-other-icons {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f5f7fa;
-  padding: 30rpx;
+  gap: 60rpx;
+  margin-bottom: 80rpx;
+  position: relative;
 }
-
-.login-card {
-  width: 100%;
-  max-width: 800rpx;
-  background-color: #ffffff;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-  border: 6rpx solid #000000;
-}
-
-.card-header {
-  padding: 40rpx;
-  text-align: center;
-  border-bottom: 2rpx solid #eeeeee;
-}
-
-.header-text {
-  font-size: 48rpx;
-  font-weight: bold;
-  color: #333333;
-}
-
-.login-form {
-  padding: 40rpx;
-}
-
-.form-item {
-  margin-bottom: 30rpx;
-}
-
-.role-picker {
-  width: 100%;
-  height: 88rpx;
-  background-color: #f5f5f5;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-}
-
-.picker-content {
-  height: 88rpx;
+.icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  background: #f5f5f5;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 32rpx;
-  color: #333333;
+  justify-content: center;
 }
-
-.form-input {
-  width: 100%;
-  height: 88rpx;
-  background-color: #f5f5f5;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-  font-size: 32rpx;
+.icon-weibo:before { content: '\e60c'; font-size: 38rpx; }
+.icon-qq:before { content: '\e60d'; font-size: 38rpx; }
+.other-menu {
+  left: 0;
+  right: 0;
+  top: 80rpx;
+  min-width: 200rpx;
 }
-
-.login-btn {
-  width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
-  background-color: #007AFF;
-  color: #ffffff;
-  font-size: 32rpx;
-  border-radius: 44rpx;
-  margin-top: 40rpx;
+.login-protocol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #888;
+  margin-top: auto;
+  margin-bottom: 40rpx;
+  width: 90vw;
 }
-
-.register-link {
-  text-align: center;
-  padding: 30rpx;
-  font-size: 28rpx;
-  color: #666666;
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 2rpx solid #bbb;
+  margin-right: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
 }
-
-.link {
-  color: #007AFF;
-  margin-left: 10rpx;
+.checkbox.checked {
+  border-color: #3cc51f;
+  background: #3cc51f;
 }
-
-/* 图标字体 */
-@font-face {
-  font-family: 'iconfont';
-  src: url('//at.alicdn.com/t/font_xxx.woff2') format('woff2');
+.icon-checked:before { content: '\2714'; color: #fff; font-size: 28rpx; }
+.icon-unchecked:before { content: ''; }
+.protocol-text {
+  color: #888;
+  font-size: 24rpx;
 }
-
-.iconfont {
-  font-family: 'iconfont';
-}
-
-.icon-arrow-down:before { content: '\e6e9'; }
 </style>
