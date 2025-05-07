@@ -82,37 +82,20 @@
       uni.showToast({ title: '请勾选协议', icon: 'none' })
       return
     }
-    
-    // 设置加载状态
-    loading.value = true
-    
-    // 调用API进行登录
-    phoneLogin({
-      phone: phone.value,
-      password: password.value,
-      areaCode: areaCodes.value[areaIndex.value]
-    }).then(response => {
-      console.log('手机号登录成功', response)
-      
-      // 保存用户信息和令牌
-      if (response.data && response.data.token) {
-        uni.setStorageSync('token', response.data.token)
-        uni.setStorageSync('userInfo', response.data.userInfo)
-        
-        // 登录成功，跳转到首页
-        uni.switchTab({
-          url: '/pages/user/home'
-        })
-      }
-    }).catch(error => {
-      console.error('登录失败', error)
-      uni.showToast({
-        title: '登录失败，请检查账号密码',
-        icon: 'none'
-      })
-    }).finally(() => {
-      loading.value = false
+    if (!canSubmit.value) return
+    try {
+    const res = await Login({
+        phone: phone.value,
+        password: password.value
     })
+    // 登录成功后存储 token
+    uni.setStorageSync('token', res.token)
+    uni.showToast({ title: '登录成功', icon: 'success' })
+    uni.reLaunch({ url: '/pages/user/home' })
+    } catch (err) {
+    uni.showToast({ title: err.message || '登录失败', icon: 'none' })
+    console.error('登录错误：', err)
+    }
   }
   </script>
   
