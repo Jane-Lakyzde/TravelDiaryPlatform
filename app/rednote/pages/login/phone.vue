@@ -79,7 +79,20 @@
       uni.showToast({ title: '请勾选协议', icon: 'none' })
       return
     }
+    if (!canSubmit.value) return
+    try {
+    const res = await Login({
+        phone: phone.value,
+        password: password.value
+    })
+    // 登录成功后存储 token
+    uni.setStorageSync('token', res.token)
+    uni.showToast({ title: '登录成功', icon: 'success' })
     uni.reLaunch({ url: '/pages/user/home' })
+    } catch (err) {
+    uni.showToast({ title: err.message || '登录失败', icon: 'none' })
+    console.error('登录错误：', err)
+    }
   }
   </script>
   
