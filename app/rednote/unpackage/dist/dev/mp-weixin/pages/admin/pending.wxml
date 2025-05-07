@@ -1,1 +1,1 @@
-<view><el-page-header wx:if="{{a}}" u-i="f62d35d8-0" bind:__l="__l" u-p="{{a}}"/><el-empty wx:if="{{b}}" u-i="f62d35d8-1" bind:__l="__l" u-p="{{b}}"/></view>
+<view><el-page-header wx:if="{{a}}" u-i="79524ee1-0" bind:__l="__l" u-p="{{a}}"/><el-empty wx:if="{{b}}" u-i="79524ee1-1" bind:__l="__l" u-p="{{b}}"/></view>

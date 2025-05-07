@@ -1,0 +1,189 @@
+<template>
+  <view class="agreement-container">
+    <view class="agreement-header">
+      <view class="title">买家须知</view>
+    </view>
+    
+    <scroll-view class="agreement-content" scroll-y>
+      <view class="section first-section">
+        <view class="section-title-row">
+          <view class="back-button" @tap="goBack">
+            <text class="iconfont icon-back">←</text>
+          </view>
+          <view class="section-title">尊敬的用户</view>
+        </view>
+        <view class="section-content">
+          <view class="paragraph">感谢您使用红笔记旅行日记平台。为了保障您的权益，在使用我们平台购买服务或产品前，请您仔细阅读以下买家须知。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">1. 旅行产品说明</view>
+        <view class="section-content">
+          <view class="paragraph">1.1 平台上的旅行路线、攻略、体验活动等产品信息由内容创作者或合作商家提供，平台会对信息进行审核，但不能完全保证其准确性和时效性。</view>
+          <view class="paragraph">1.2 请您在购买前仔细阅读产品详情、费用说明、使用条件、有效期等信息，确保符合您的需求。</view>
+          <view class="paragraph">1.3 部分旅行产品可能涉及安全风险，请根据自身情况选择适合的产品，并遵守产品提供方的安全指引。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">2. 价格及支付</view>
+        <view class="section-content">
+          <view class="paragraph">2.1 产品价格以订单提交时显示的价格为准。价格可能会因季节、供需关系等因素发生变化。</view>
+          <view class="paragraph">2.2 产品价格可能不包含额外费用，如景点门票、交通费用、保险费用等，请在购买前确认具体包含内容。</view>
+          <view class="paragraph">2.3 支付成功后，系统将自动生成订单，并发送订单信息至您的账号。请您及时查看并妥善保存。</view>
+          <view class="paragraph">2.4 如遇支付问题，请立即联系客服处理，避免因支付延迟造成订单失效。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">3. 订单确认</view>
+        <view class="section-content">
+          <view class="paragraph">3.1 下单前请确认您的个人信息准确无误，包括姓名、联系方式、收货地址等。</view>
+          <view class="paragraph">3.2 某些特殊产品可能需要您提供身份证、护照等证件信息，我们将严格保护您的个人信息安全。</view>
+          <view class="paragraph">3.3 提交订单并支付成功后，您将收到订单确认通知。如长时间未收到，请及时联系客服。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">4. 退款与取消政策</view>
+        <view class="section-content">
+          <view class="paragraph">4.1 不同产品的退款政策可能不同，请在购买前查看产品页面上的退款规则。</view>
+          <view class="paragraph">4.2 一般退款规则：</view>
+          <view class="paragraph">- 未使用且在有效期内的电子产品：可申请全额退款</view>
+          <view class="paragraph">- 部分使用的产品：按未使用部分比例退款</view>
+          <view class="paragraph">- 已过有效期的产品：不支持退款</view>
+          <view class="paragraph">- 特价或促销产品：请查看具体活动规则</view>
+          <view class="paragraph">4.3 申请退款时，请提供订单号和退款原因，我们将在5个工作日内处理您的申请。</view>
+          <view class="paragraph">4.4 退款金额将原路返回至您的支付账户，到账时间取决于支付渠道，一般为1-7个工作日。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">5. 用户评价</view>
+        <view class="section-content">
+          <view class="paragraph">5.1 我们鼓励您在使用产品后提供真实、客观的评价，帮助其他用户做出更好的选择。</view>
+          <view class="paragraph">5.2 评价内容应遵守平台规则，不得包含侮辱、诽谤、威胁等不当言论。</view>
+          <view class="paragraph">5.3 如遇产品或服务问题，建议先与商家或平台客服沟通解决，再进行评价。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">6. 知识产权保护</view>
+        <view class="section-content">
+          <view class="paragraph">6.1 平台上的旅行攻略、路线规划等内容受知识产权保护，未经授权不得用于商业目的。</view>
+          <view class="paragraph">6.2 购买电子类产品（如电子攻略、电子地图等）仅供个人使用，不得传播、复制或用于商业用途。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">7. 安全提示</view>
+        <view class="section-content">
+          <view class="paragraph">7.1 旅行具有一定风险，请您根据自身情况选择适合的旅行产品，并购买必要的旅行保险。</view>
+          <view class="paragraph">7.2 在参与高风险活动（如户外探险、极限运动等）时，请严格遵守安全指引，确保人身安全。</view>
+          <view class="paragraph">7.3 随时关注目的地的天气、政策等变化，合理调整行程。</view>
+          <view class="paragraph">7.4 保管好个人财物和证件，避免遗失或被盗。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">8. 客户服务</view>
+        <view class="section-content">
+          <view class="paragraph">8.1 如您在使用过程中遇到任何问题，可通过以下方式联系我们：</view>
+          <view class="paragraph">- 客服热线：400-888-XXXX（9:00-22:00）</view>
+          <view class="paragraph">- 在线客服：平台内"我的"-"联系客服"</view>
+          <view class="paragraph">- 电子邮箱：service@rednote.com</view>
+          <view class="paragraph">8.2 我们将在24小时内回复您的问题，紧急问题优先处理。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">9. 法律声明</view>
+        <view class="section-content">
+          <view class="paragraph">9.1 本买家须知是对《用户协议》的补充，与《用户协议》具有同等法律效力。</view>
+          <view class="paragraph">9.2 本平台保留对买家须知的最终解释权，并有权根据法律法规和市场变化进行修改。</view>
+          <view class="paragraph">9.3 最终修改版本将在平台上公布，并自公布之日起生效。</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script setup>
+const goBack = () => {
+  uni.navigateBack()
+}
+</script>
+
+<style>
+.agreement-container {
+  min-height: 100vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.agreement-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+  z-index: 100;
+  padding: 0 30rpx;
+}
+
+.back-button {
+  font-size: 36rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.agreement-content {
+  margin-top: 90rpx;
+  padding: 30rpx;
+  flex: 1;
+  height: calc(100vh - 90rpx);
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.first-section {
+  margin-top: 20rpx;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.paragraph {
+  margin-bottom: 16rpx;
+}
+</style> 

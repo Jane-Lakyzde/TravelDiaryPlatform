@@ -1,0 +1,210 @@
+<template>
+  <view class="agreement-container">
+    <view class="agreement-header">
+      <view class="title">隐私政策</view>
+    </view>
+    
+    <scroll-view class="agreement-content" scroll-y>
+      <view class="section first-section">
+        <view class="section-title-row">
+          <view class="back-button" @tap="goBack">
+            <text class="iconfont icon-back">←</text>
+          </view>
+          <view class="section-title">引言</view>
+        </view>
+        <view class="section-content">
+          <view class="paragraph">红笔记旅行日记平台（以下简称"我们"或"本平台"）非常重视用户的隐私和个人信息保护。本隐私政策旨在向您说明我们如何收集、使用、存储、共享和保护您的个人信息，以及您享有的相关权利。</view>
+          <view class="paragraph">在使用我们的服务前，请您仔细阅读并充分理解本隐私政策的全部内容。如您同意本隐私政策，即表示您同意我们按照本隐私政策处理您的个人信息。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">1. 我们收集的信息</view>
+        <view class="section-content">
+          <view class="paragraph">1.1 您主动提供的信息</view>
+          <view class="paragraph">- 账号信息：当您注册账号时，我们会收集您的手机号码、微信账号等认证信息。</view>
+          <view class="paragraph">- 个人资料：包括您的昵称、头像、性别、出生日期、个人简介等您选择提供的信息。</view>
+          <view class="paragraph">- 旅行内容：您在平台上发布的旅行日记、照片、视频、评论、点赞等内容。</view>
+          <view class="paragraph">- 通信记录：您与其他用户或客服的通信内容。</view>
+          
+          <view class="paragraph">1.2 我们自动收集的信息</view>
+          <view class="paragraph">- 设备信息：包括设备型号、操作系统版本、设备设置、唯一设备标识符等信息。</view>
+          <view class="paragraph">- 日志信息：包括您的搜索查询、IP地址、浏览器类型、访问日期和时间、停留时长等信息。</view>
+          <view class="paragraph">- 位置信息：在您授权的情况下，我们会收集您的位置信息，以提供基于位置的服务。</view>
+          <view class="paragraph">- Cookie和类似技术：我们使用Cookie和类似技术收集您的使用习惯，以便提供个性化服务。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">2. 我们如何使用您的信息</view>
+        <view class="section-content">
+          <view class="paragraph">2.1 提供服务</view>
+          <view class="paragraph">- 创建和维护您的账号</view>
+          <view class="paragraph">- 提供旅行日记发布、分享、互动等服务</view>
+          <view class="paragraph">- 处理您的交易请求</view>
+          <view class="paragraph">- 提供客户服务与支持</view>
+          
+          <view class="paragraph">2.2 改进和优化服务</view>
+          <view class="paragraph">- 开发新产品和服务</view>
+          <view class="paragraph">- 分析产品使用情况，优化用户体验</view>
+          <view class="paragraph">- 测试和开发新功能</view>
+          
+          <view class="paragraph">2.3 安全与防欺诈</view>
+          <view class="paragraph">- 验证身份，预防欺诈和不当行为</view>
+          <view class="paragraph">- 保障账号和交易安全</view>
+          <view class="paragraph">- 监测和防止平台违规行为</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">3. 信息的共享和披露</view>
+        <view class="section-content">
+          <view class="paragraph">3.1 经您授权的共享</view>
+          <view class="paragraph">除非得到您的明确许可，我们不会与第三方共享您的个人信息。</view>
+          
+          <view class="paragraph">3.2 与服务提供商的共享</view>
+          <view class="paragraph">我们可能会与协助我们提供服务的合作伙伴共享您的部分信息，如支付处理、数据分析、营销支持、客户服务等。这些合作伙伴必须按照我们的要求处理信息，并且不得将其用于其他目的。</view>
+          
+          <view class="paragraph">3.3 法律要求的披露</view>
+          <view class="paragraph">在法律、法规、法律程序或政府要求的情况下，我们可能会披露您的信息。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">4. 信息的存储与保护</view>
+        <view class="section-content">
+          <view class="paragraph">4.1 信息存储</view>
+          <view class="paragraph">我们会在中华人民共和国境内存储您的个人信息。同时，为了向您提供更好的服务，我们可能会按照法律规定将您的信息传输并存储在境外服务器上。在这种情况下，我们会确保这些信息得到与中国境内同等水平的保护。</view>
+          
+          <view class="paragraph">4.2 信息安全</view>
+          <view class="paragraph">我们采取各种安全技术和程序，以防止您的信息丢失、被非法使用、被未经授权访问或泄露。我们会定期检查和更新这些措施，以确保您的信息安全。</view>
+          
+          <view class="paragraph">4.3 信息保存期限</view>
+          <view class="paragraph">我们在为您提供服务期间，将持续保存您的个人信息。在您注销账号后，我们将根据法律规定保留必要的信息，其余信息将被删除或匿名化处理。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">5. 您的权利</view>
+        <view class="section-content">
+          <view class="paragraph">5.1 访问和更正权</view>
+          <view class="paragraph">您有权访问和更正您的个人信息。您可以通过账号设置页面查看和修改基本信息。</view>
+          
+          <view class="paragraph">5.2 删除权</view>
+          <view class="paragraph">在特定情况下，您有权要求删除您的个人信息，如信息不再必要、您撤回同意或信息被非法处理等。</view>
+          
+          <view class="paragraph">5.3 撤回同意权</view>
+          <view class="paragraph">对于基于您同意而收集和使用的个人信息，您有权随时撤回同意。撤回同意不会影响撤回前基于您同意的处理行为的合法性。</view>
+          
+          <view class="paragraph">5.4 注销账号</view>
+          <view class="paragraph">您可以通过设置页面申请注销账号。账号注销后，我们将停止为您提供服务，并依据法律规定处理您的个人信息。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">6. 儿童信息保护</view>
+        <view class="section-content">
+          <view class="paragraph">我们的服务主要面向成人。如您未满18岁，请在法定监护人的陪同下阅读本隐私政策，并在征得法定监护人同意的前提下使用我们的服务。</view>
+          <view class="paragraph">对于经父母或监护人同意而收集的儿童个人信息，我们只会在法律允许、父母或监护人明确同意或保护儿童所必要的情况下使用或披露。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">7. 隐私政策的更新</view>
+        <view class="section-content">
+          <view class="paragraph">我们可能会根据产品和服务的更新或法律法规的变化修改本隐私政策。修改后的隐私政策将在平台上公布。重大变更会通过站内信、弹窗等方式通知您。</view>
+          <view class="paragraph">如果您对修改后的隐私政策有任何疑问，可以通过客服与我们联系。如您在隐私政策修改后继续使用我们的服务，即表示您同意修改后的隐私政策。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">8. 联系我们</view>
+        <view class="section-content">
+          <view class="paragraph">如您对本隐私政策有任何疑问、意见或建议，可以通过以下方式与我们联系：</view>
+          <view class="paragraph">电子邮箱：privacy@rednote.com</view>
+          <view class="paragraph">客服电话：400-888-XXXX</view>
+          <view class="paragraph">我们将在收到您的问题后15个工作日内予以回复。</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script setup>
+const goBack = () => {
+  uni.navigateBack()
+}
+</script>
+
+<style>
+.agreement-container {
+  min-height: 100vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.agreement-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+  z-index: 100;
+  padding: 0 30rpx;
+}
+
+.back-button {
+  font-size: 36rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.agreement-content {
+  margin-top: 90rpx;
+  padding: 30rpx;
+  flex: 1;
+  height: calc(100vh - 90rpx);
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.first-section {
+  margin-top: 20rpx;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.paragraph {
+  margin-bottom: 16rpx;
+}
+</style> 

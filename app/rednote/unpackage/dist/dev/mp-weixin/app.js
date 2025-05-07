@@ -26,6 +26,9 @@ if (!Math) {
   "./pages/sidebar/scan/index.js";
   "./pages/sidebar/support/index.js";
   "./pages/sidebar/settings/index.js";
+  "./pages/agreement/user-agreement.js";
+  "./pages/agreement/privacy-policy.js";
+  "./pages/agreement/buyer-notice.js";
 }
 const _sfc_main = {
   onLaunch: function() {

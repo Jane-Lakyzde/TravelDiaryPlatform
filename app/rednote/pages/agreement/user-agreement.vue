@@ -1,0 +1,175 @@
+<template>
+  <view class="agreement-container">
+    <view class="agreement-header">
+      <view class="title">用户协议</view>
+    </view>
+    
+    <scroll-view class="agreement-content" scroll-y>
+      <view class="section first-section">
+        <view class="section-title-row">
+          <view class="back-button" @tap="goBack">
+            <text class="iconfont icon-back">←</text>
+          </view>
+          <view class="section-title">1. 协议的接受与修改</view>
+        </view>
+        <view class="section-content">
+          <view class="paragraph">欢迎使用红笔记旅行日记平台（以下简称"本平台"）。本用户协议（以下简称"本协议"）是您与本平台之间关于使用本平台服务所订立的协议。</view>
+          <view class="paragraph">在使用本平台之前，请您务必仔细阅读并充分理解本协议的全部内容。当您点击同意或使用本平台服务时，即表示您已经仔细阅读并完全接受本协议的全部条款。</view>
+          <view class="paragraph">本平台有权在必要时修改本协议条款。您可以在相关页面中查阅最新版本的协议条款。本协议条款变更后，如果您继续使用本平台服务，即视为您已接受修改后的协议。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">2. 服务内容</view>
+        <view class="section-content">
+          <view class="paragraph">本平台是一个旅行日记分享平台，提供用户旅行日记创作、分享、浏览、互动等功能。</view>
+          <view class="paragraph">您理解并同意，本平台仅提供相关的网络服务，您在使用过程中所需的设备（如电脑、手机及其他与接入互联网或移动网有关的装置）及所需的费用（如为接入互联网而支付的电话费及上网费）均由您自行承担。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">3. 用户账号</view>
+        <view class="section-content">
+          <view class="paragraph">您在使用本平台服务前需要注册账号。您应当提供真实、准确、完整的个人资料，并在资料发生变更时及时更新。</view>
+          <view class="paragraph">您应对账号安全负责，不得将账号出借、转让或以其他方式许可第三方使用。如发现他人未经许可使用您的账号，应立即通知本平台。</view>
+          <view class="paragraph">本平台有权根据您的注册信息是否真实、是否符合本平台要求等因素，决定是否为您提供服务，或者终止为您提供服务。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">4. 用户行为规范</view>
+        <view class="section-content">
+          <view class="paragraph">您在使用本平台服务时，必须遵守中华人民共和国相关法律法规，不得利用本平台服务从事违法违规行为，包括但不限于：</view>
+          <view class="paragraph">- 发布、传播违反国家法律法规的信息</view>
+          <view class="paragraph">- 侵犯他人知识产权、商业秘密等合法权益</view>
+          <view class="paragraph">- 发布、传播色情、暴力、赌博、恐怖等违法信息</view>
+          <view class="paragraph">- 进行任何可能对互联网正常运转造成不利影响的行为</view>
+          <view class="paragraph">- 冒充他人，发布虚假信息</view>
+          <view class="paragraph">- 从事其他违反法律法规、社会公德、公序良俗的行为</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">5. 知识产权</view>
+        <view class="section-content">
+          <view class="paragraph">本平台所提供的服务中包含的任何文本、图片、图形、音频和视频资料以及软件等，均受版权、商标和其他财产所有权法律的保护。</view>
+          <view class="paragraph">您在本平台上发布的内容，您保留相应的知识产权。您同意授予本平台非独家的、全球性的、永久的、不可撤销的、免费的、可再许可的使用权利。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">6. 责任限制</view>
+        <view class="section-content">
+          <view class="paragraph">本平台对于您使用本服务所产生的任何直接、间接、偶然、特殊及继起的损害不负责任。</view>
+          <view class="paragraph">本平台不对用户发布的内容进行事先审查，但有权依法对用户发布的内容进行检查或删除。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">7. 协议终止</view>
+        <view class="section-content">
+          <view class="paragraph">您同意本平台有权基于合理理由终止您的账号，理由包括但不限于：</view>
+          <view class="paragraph">- 违反本协议的规定</view>
+          <view class="paragraph">- 有相关法律法规规定的行为</view>
+          <view class="paragraph">- 不再使用本服务的情况</view>
+          <view class="paragraph">协议终止后，您使用本服务的权利立即终止。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">8. 法律适用与争议解决</view>
+        <view class="section-content">
+          <view class="paragraph">本协议的订立、执行和解释及争议的解决均应适用中华人民共和国法律。</view>
+          <view class="paragraph">如发生本协议相关的任何争议，双方应友好协商解决；协商不成时，任何一方均有权将争议提交至本平台所在地有管辖权的人民法院提起诉讼。</view>
+        </view>
+      </view>
+      
+      <view class="section">
+        <view class="section-title">9. 其他条款</view>
+        <view class="section-content">
+          <view class="paragraph">本协议中的标题仅为方便而设，不具有任何法律或合同效力。</view>
+          <view class="paragraph">本协议最终解释权归本平台所有。</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script setup>
+const goBack = () => {
+  uni.navigateBack()
+}
+</script>
+
+<style>
+.agreement-container {
+  min-height: 100vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.agreement-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+  z-index: 100;
+  padding: 0 30rpx;
+}
+
+.back-button {
+  font-size: 36rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.agreement-content {
+  margin-top: 90rpx;
+  padding: 30rpx;
+  flex: 1;
+  height: calc(100vh - 90rpx);
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.first-section {
+  margin-top: 20rpx;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.paragraph {
+  margin-bottom: 16rpx;
+}
+</style> 

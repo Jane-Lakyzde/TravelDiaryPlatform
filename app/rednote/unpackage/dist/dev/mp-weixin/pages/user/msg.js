@@ -103,7 +103,7 @@ const _sfc_main = {
             e: common_vendor.o(($event) => handleSelectUser(user), user.id)
           };
         }),
-        j: common_vendor.sr("createPopup", "97a45de0-0"),
+        j: common_vendor.sr("createPopup", "3f033b23-0"),
         k: common_vendor.p({
           type: "center"
         })

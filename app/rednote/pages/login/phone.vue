@@ -44,12 +44,15 @@
   
   <script setup>
   import { ref, computed } from 'vue'
+  import { phoneLogin } from '@/api/user' // 导入手机号登录API
+
   const showHelp = ref(false)
   const checked = ref(false)
   const phone = ref('')
   const password = ref('')
   const areaCodes = ref(['+86', '+852', '+853', '+886'])
   const areaIndex = ref(0)
+  const loading = ref(false)
   
   const goBack = () => {
     uni.navigateBack()
@@ -79,7 +82,37 @@
       uni.showToast({ title: '请勾选协议', icon: 'none' })
       return
     }
-    uni.reLaunch({ url: '/pages/user/home' })
+    
+    // 设置加载状态
+    loading.value = true
+    
+    // 调用API进行登录
+    phoneLogin({
+      phone: phone.value,
+      password: password.value,
+      areaCode: areaCodes.value[areaIndex.value]
+    }).then(response => {
+      console.log('手机号登录成功', response)
+      
+      // 保存用户信息和令牌
+      if (response.data && response.data.token) {
+        uni.setStorageSync('token', response.data.token)
+        uni.setStorageSync('userInfo', response.data.userInfo)
+        
+        // 登录成功，跳转到首页
+        uni.switchTab({
+          url: '/pages/user/home'
+        })
+      }
+    }).catch(error => {
+      console.error('登录失败', error)
+      uni.showToast({
+        title: '登录失败，请检查账号密码',
+        icon: 'none'
+      })
+    }).finally(() => {
+      loading.value = false
+    })
   }
   </script>
   

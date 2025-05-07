@@ -117,6 +117,27 @@
     {
       "path": "pages/sidebar/settings/index",
       "style": { "navigationBarTitleText": "设置" }
+    },
+    {
+      "path": "pages/agreement/user-agreement",
+      "style": {
+        "navigationBarTitleText": "用户协议",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/agreement/privacy-policy",
+      "style": {
+        "navigationBarTitleText": "隐私政策",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/agreement/buyer-notice",
+      "style": {
+        "navigationBarTitleText": "买家须知",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "globalStyle": {

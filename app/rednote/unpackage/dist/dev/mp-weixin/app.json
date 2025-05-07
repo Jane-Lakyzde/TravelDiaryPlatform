@@ -23,7 +23,10 @@
     "pages/sidebar/community-guidelines/index",
     "pages/sidebar/scan/index",
     "pages/sidebar/support/index",
-    "pages/sidebar/settings/index"
+    "pages/sidebar/settings/index",
+    "pages/agreement/user-agreement",
+    "pages/agreement/privacy-policy",
+    "pages/agreement/buyer-notice"
   ],
   "window": {
     "navigationBarTextStyle": "black",

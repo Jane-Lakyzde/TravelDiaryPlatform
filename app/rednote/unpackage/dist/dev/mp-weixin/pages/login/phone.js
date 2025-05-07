@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const api_user = require("../../api/user.js");
 const _sfc_main = {
   __name: "phone",
   setup(__props) {
@@ -9,6 +10,7 @@ const _sfc_main = {
     const password = common_vendor.ref("");
     const areaCodes = common_vendor.ref(["+86", "+852", "+853", "+886"]);
     const areaIndex = common_vendor.ref(0);
+    const loading = common_vendor.ref(false);
     const goBack = () => {
       common_vendor.index.navigateBack();
     };
@@ -37,7 +39,29 @@ const _sfc_main = {
         common_vendor.index.showToast({ title: "请勾选协议", icon: "none" });
         return;
       }
-      common_vendor.index.reLaunch({ url: "/pages/user/home" });
+      loading.value = true;
+      api_user.phoneLogin({
+        phone: phone.value,
+        password: password.value,
+        areaCode: areaCodes.value[areaIndex.value]
+      }).then((response) => {
+        common_vendor.index.__f__("log", "at pages/login/phone.vue:95", "手机号登录成功", response);
+        if (response.data && response.data.token) {
+          common_vendor.index.setStorageSync("token", response.data.token);
+          common_vendor.index.setStorageSync("userInfo", response.data.userInfo);
+          common_vendor.index.switchTab({
+            url: "/pages/user/home"
+          });
+        }
+      }).catch((error) => {
+        common_vendor.index.__f__("error", "at pages/login/phone.vue:108", "登录失败", error);
+        common_vendor.index.showToast({
+          title: "登录失败，请检查账号密码",
+          icon: "none"
+        });
+      }).finally(() => {
+        loading.value = false;
+      });
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
