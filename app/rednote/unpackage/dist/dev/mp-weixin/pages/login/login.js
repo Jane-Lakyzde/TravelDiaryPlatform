@@ -15,7 +15,7 @@ const _sfc_main = {
       showHelp.value = false;
     };
     const goPhoneLogin = () => {
-      common_vendor.index.navigateTo({ url: "/pages/login/phone.vue" });
+      common_vendor.index.navigateTo({ url: "/pages/login/phone" });
     };
     return (_ctx, _cache) => {
       return common_vendor.e({

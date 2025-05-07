@@ -7,9 +7,9 @@
       }
     },
     {
-      "path": "pages/login/register",
+      "path": "pages/login/phone",
       "style": {
-        "navigationBarTitleText": "注册"
+        "navigationBarTitleText": "手机号登录"
       }
     },
     {
@@ -39,7 +39,7 @@
     {
       "path": "pages/user/msg",
       "style": {
-        "navigationBarTitleText": "发布"
+        "navigationBarTitleText": "消息"
       }
     },
     {

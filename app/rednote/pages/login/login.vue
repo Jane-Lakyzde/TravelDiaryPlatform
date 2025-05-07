@@ -16,7 +16,7 @@
     <!-- 微信一键登录 -->
     <button class="login-btn wx-btn">
       <text class="iconfont icon-wechat"></text>
-      微信一键登录
+      <text class="btn-text">微信一键登录</text>
     </button>
     <!-- 手机号登录 -->
     <view class="login-phone" @tap="goPhoneLogin">手机号登录</view>
@@ -53,9 +53,6 @@ const showHelp = ref(false)
 const showOtherMenu = ref(false)
 const checked = ref(false)
 
-const closeLogin = () => {
-  uni.navigateBack()
-}
 const toggleHelp = () => {
   showHelp.value = !showHelp.value
   showOtherMenu.value = false
@@ -65,11 +62,19 @@ const toggleOtherMenu = () => {
   showHelp.value = false
 }
 const goPhoneLogin = () => {
-  uni.navigateTo({ url: '/pages/login/phone.vue' })
+  uni.navigateTo({ url: '/pages/login/phone' })
 }
 </script>
 
 <style>
+@font-face {
+  font-family: 'iconfont';
+  src: url('/static/fonts/iconfont.ttf') format('truetype');
+}
+.iconfont {
+  font-family: 'iconfont';
+  font-size: 32rpx;
+}
 .login-container {
   min-height: 100vh;
   background: #fff;
@@ -120,16 +125,18 @@ const goPhoneLogin = () => {
 .login-btn.wx-btn {
   width: 80vw;
   height: 88rpx;
-  background: #3cc51f;
+  background: #e9a9b5;
   color: #fff;
   font-size: 32rpx;
-  border-radius: 12rpx;
+  border-radius: 3rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 32rpx;
 }
-.icon-wechat:before { content: '\e60b'; font-size: 40rpx; margin-right: 18rpx; }
+.btn-text {
+  margin-left: 18rpx;
+}
 .login-phone {
   color: #888;
   font-size: 30rpx;
@@ -158,8 +165,9 @@ const goPhoneLogin = () => {
   align-items: center;
   justify-content: center;
 }
-.icon-weibo:before { content: '\e60c'; font-size: 38rpx; }
-.icon-qq:before { content: '\e60d'; font-size: 38rpx; }
+.icon-wechat:before { content: '\e616'; font-size: 40rpx; }
+.icon-weibo:before { content: '\e63e'; font-size: 38rpx; }
+.icon-qq:before { content: '\e623'; font-size: 38rpx; }
 .other-menu {
   left: 0;
   right: 0;
