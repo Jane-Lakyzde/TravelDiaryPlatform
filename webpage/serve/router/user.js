@@ -35,10 +35,16 @@ router.post('/login', async (req, res) => {
         if (user) {
             // 生成 session
             req.session.user = user;
+            req.session.islogin = true;
+            
+            // 生成 token
+            const token = jwt.sign({ username: username }, secretKey, { expiresIn: '3000s' });
+            
             res.json({
                 status: 0,
                 message: '登录成功',
-                data: user
+                data: user,
+                token: token
             });
         } else {
             res.json({
@@ -55,18 +61,4 @@ router.post('/login', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD:webpage/serve/router/user.js
-  req.session.user = req.body;
-  req.session.islogin = true;
-
-  const token = jwt.sign({ username: body.username }, secretKey, { expiresIn: '3000s' });
-
-  res.send({
-    status: 0,
-    msg: 'POST 请求成功',
-    token: token
-  });
-}
-=======
 export default router;
->>>>>>> 8b79cafae40ce0f0c86be06c71ec21f75cec83ea:serve/router/user.js
