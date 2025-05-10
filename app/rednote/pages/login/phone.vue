@@ -69,7 +69,7 @@
   const canSubmit = computed(() => {
     return phone.value.length === 11 && password.value.length >= 6 && checked.value
   })
-  const onConfirm = () => {
+  const onConfirm = async () => {
     if (phone.value.length !== 11) {
       uni.showToast({ title: '请输入11位手机号', icon: 'none' })
       return
@@ -84,17 +84,17 @@
     }
     if (!canSubmit.value) return
     try {
-    const res = await Login({
+      const res = await phoneLogin({
         phone: phone.value,
         password: password.value
-    })
-    // 登录成功后存储 token
-    uni.setStorageSync('token', res.token)
-    uni.showToast({ title: '登录成功', icon: 'success' })
-    uni.reLaunch({ url: '/pages/user/home' })
+      })
+      // 登录成功后存储 token
+      uni.setStorageSync('token', res.token)
+      uni.showToast({ title: '登录成功', icon: 'success' })
+      uni.reLaunch({ url: '/pages/user/home' })
     } catch (err) {
-    uni.showToast({ title: err.message || '登录失败', icon: 'none' })
-    console.error('登录错误：', err)
+      uni.showToast({ title: err.message || '登录失败', icon: 'none' })
+      console.error('登录错误：', err)
     }
   }
   </script>
