@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["store/index.js"],"sourcesContent":["import { createPinia } from 'pinia'\r\n\r\nconst pinia = createPinia()\r\n\r\nexport default pinia"],"names":["createPinia"],"mappings":";;AAEK,MAAC,QAAQA,cAAW,YAAA;;"}

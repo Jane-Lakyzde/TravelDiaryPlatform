@@ -65,9 +65,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/modules/user'
 
-const store = useStore()
+const userStore = useUserStore()
 const showHelp = ref(false)
 const showOtherMenu = ref(false)
 const checked = ref(false)
@@ -100,8 +100,8 @@ const goToAgreement = (type) => {
 }
 
 // 微信登录方法
-const wxLogin = async () => {
-  // 检查是否同意协议
+const wxLogin = () => {
+  // 第一步：先判断是否勾选协议
   if (!checked.value) {
     uni.showToast({
       title: '请先阅读并同意相关协议',
@@ -109,49 +109,53 @@ const wxLogin = async () => {
     })
     return
   }
-  
-  // 显示加载状态
-  loginLoading.value = true
-  
-  try {
-    // 调用uni-app的登录方法获取code
-    const loginRes = await uni.login({
-      provider: 'weixin'
-    })
-    
-    // 获取用户信息
-    const userInfoRes = await uni.getUserProfile({
-      desc: '用于完善用户资料',
-      lang: 'zh_CN'
-    })
-    
-    // 调用 Vuex action 进行登录
-    await store.dispatch('user/wxLogin', {
-      code: loginRes.code,
-      userInfo: userInfoRes.userInfo,
-      loginType: 'wechat',
-      encryptedData: userInfoRes.encryptedData,
-      iv: userInfoRes.iv
-    })
-    
-    // 登录成功，跳转到首页
-    uni.switchTab({
-      url: '/pages/user/home'
-    })
-    
-    uni.showToast({
-      title: '登录成功',
-      icon: 'success'
-    })
-  } catch (error) {
-    console.error('登录失败', error)
-    uni.showToast({
-      title: error.message || '登录失败，请重试',
-      icon: 'none'
-    })
-  } finally {
-    loginLoading.value = false
-  }
+
+  // 在这个同步作用域里直接调用 getUserProfile
+  uni.getUserProfile({
+    desc: '用于完善用户资料',
+    lang: 'zh_CN',
+    success: async (userInfoRes) => {
+      loginLoading.value = true
+      try {
+        // 获取微信 code
+        const loginRes = await uni.login({ provider: 'weixin' })
+
+        // 调用后端微信登录
+        await userStore.wxLogin({
+          code: loginRes.code,
+          userInfo: userInfoRes.userInfo,
+          loginType: 'wechat',
+          encryptedData: userInfoRes.encryptedData,
+          iv: userInfoRes.iv
+        })
+
+        // 登录成功
+        uni.switchTab({
+          url: '/pages/user/home'
+        })
+
+        uni.showToast({
+          title: '登录成功',
+          icon: 'success'
+        })
+      } catch (error) {
+        console.error('登录失败', error)
+        uni.showToast({
+          title: error.message || '登录失败，请重试',
+          icon: 'none'
+        })
+      } finally {
+        loginLoading.value = false
+      }
+    },
+    fail: (err) => {
+      console.error('getUserProfile 授权失败：', err)
+      uni.showToast({
+        title: '用户拒绝授权',
+        icon: 'none'
+      })
+    }
+  })
 }
 </script>
 

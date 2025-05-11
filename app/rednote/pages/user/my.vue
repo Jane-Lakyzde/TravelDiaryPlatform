@@ -93,13 +93,13 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/modules/user'
 
-const store = useStore()
+const userStore = useUserStore()
 const activeTab = ref('post')
 
-// 从 Vuex 获取用户信息
-const userInfo = computed(() => store.getters['user/userInfo'])
+// 从 Pinia 获取用户信息
+const userInfo = computed(() => userStore.getUserInfo)
 
 const recommendedUsers = ref([
   { id: 1, avatar: 'https://placeholder.com/80x80', username: 'xiaox.iao04', desc: '已关注 kelsey041121' },
@@ -125,7 +125,7 @@ const handleLogout = () => {
     content: '确定要退出登录吗？',
     success: (res) => {
       if (res.confirm) {
-        store.dispatch('user/logout')
+        userStore.logout()
         uni.reLaunch({
           url: '/pages/login/login'
         })

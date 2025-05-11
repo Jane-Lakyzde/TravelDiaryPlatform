@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
+const store_index = require("./store/index.js");
 if (!Math) {
   "./pages/login/login.js";
   "./pages/login/phone.js";
@@ -92,6 +93,7 @@ const App = {
 };
 function createApp() {
   const app = common_vendor.createSSRApp(App);
+  app.use(store_index.pinia);
   return {
     app
   };

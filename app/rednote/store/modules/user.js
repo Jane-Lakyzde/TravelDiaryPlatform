@@ -1,34 +1,10 @@
+import { defineStore } from 'pinia'
 import { login } from '@/api/user'
 
-const state = {
-  token: uni.getStorageSync('token') || '',
-  userInfo: uni.getStorageSync('userInfo') || {
-    email: '',
-    username: '',
-    avatar: '',
-    bio: '',
-    posts: 0,
-    followers: 0,
-    following: 0
-  },
-  isLogin: !!uni.getStorageSync('token')
-}
-
-const mutations = {
-  SET_TOKEN(state, token) {
-    state.token = token
-    uni.setStorageSync('token', token)
-  },
-  SET_USER_INFO(state, userInfo) {
-    state.userInfo = userInfo
-    uni.setStorageSync('userInfo', userInfo)
-  },
-  SET_LOGIN_STATUS(state, status) {
-    state.isLogin = status
-  },
-  CLEAR_USER_DATA(state) {
-    state.token = ''
-    state.userInfo = {
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    token: uni.getStorageSync('token') || '',
+    userInfo: uni.getStorageSync('userInfo') || {
       email: '',
       username: '',
       avatar: '',
@@ -36,52 +12,72 @@ const mutations = {
       posts: 0,
       followers: 0,
       following: 0
-    }
-    state.isLogin = false
-    uni.removeStorageSync('token')
-    uni.removeStorageSync('userInfo')
-  }
-}
+    },
+    isLogin: !!uni.getStorageSync('token')
+  }),
 
-const actions = {
-  // 微信登录
-  async wxLogin({ commit }, loginData) {
-    try {
-      const response = await login(loginData)
-      if (response.data && response.data.token) {
-        commit('SET_TOKEN', response.data.token)
-        commit('SET_USER_INFO', response.data.userInfo)
-        commit('SET_LOGIN_STATUS', true)
-        return Promise.resolve(response.data)
+  getters: {
+    getToken: (state) => state.token,
+    getUserInfo: (state) => state.userInfo,
+    getIsLogin: (state) => state.isLogin,
+    getUsername: (state) => state.userInfo.username,
+    getAvatar: (state) => state.userInfo.avatar
+  },
+
+  actions: {
+    setToken(token) {
+      this.token = token
+      uni.setStorageSync('token', token)
+    },
+
+    setUserInfo(userInfo) {
+      this.userInfo = userInfo
+      uni.setStorageSync('userInfo', userInfo)
+    },
+
+    setLoginStatus(status) {
+      this.isLogin = status
+    },
+
+    clearUserData() {
+      this.token = ''
+      this.userInfo = {
+        email: '',
+        username: '',
+        avatar: '',
+        bio: '',
+        posts: 0,
+        followers: 0,
+        following: 0
       }
-    } catch (error) {
-      return Promise.reject(error)
+      this.isLogin = false
+      uni.removeStorageSync('token')
+      uni.removeStorageSync('userInfo')
+    },
+
+    // 微信登录
+    async wxLogin(loginData) {
+      try {
+        const response = await login(loginData)
+        if (response.data && response.data.token) {
+          this.setToken(response.data.token)
+          this.setUserInfo(response.data.userInfo)
+          this.setLoginStatus(true)
+          return Promise.resolve(response.data)
+        }
+      } catch (error) {
+        return Promise.reject(error)
+      }
+    },
+
+    // 更新用户信息
+    updateUserInfo(userInfo) {
+      this.setUserInfo(userInfo)
+    },
+
+    // 退出登录
+    logout() {
+      this.clearUserData()
     }
-  },
-
-  // 更新用户信息
-  updateUserInfo({ commit }, userInfo) {
-    commit('SET_USER_INFO', userInfo)
-  },
-
-  // 退出登录
-  logout({ commit }) {
-    commit('CLEAR_USER_DATA')
   }
-}
-
-const getters = {
-  token: state => state.token,
-  userInfo: state => state.userInfo,
-  isLogin: state => state.isLogin,
-  username: state => state.userInfo.username,
-  avatar: state => state.userInfo.avatar
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions,
-  getters
-}
+})

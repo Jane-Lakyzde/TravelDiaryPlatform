@@ -1,10 +1,11 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
-const api_user = require("../../api/user.js");
+const store_modules_user = require("../../store/modules/user.js");
 const _sfc_main = {
   __name: "login",
   setup(__props) {
+    const userStore = store_modules_user.useUserStore();
     const showHelp = common_vendor.ref(false);
     const showOtherMenu = common_vendor.ref(false);
     const checked = common_vendor.ref(false);
@@ -18,6 +19,13 @@ const _sfc_main = {
       showHelp.value = false;
     };
     const goPhoneLogin = () => {
+      if (!checked.value) {
+        common_vendor.index.showToast({
+          title: "请先阅读并同意相关协议",
+          icon: "none"
+        });
+        return;
+      }
       common_vendor.index.navigateTo({ url: "/pages/login/phone" });
     };
     const goToAgreement = (type) => {
@@ -33,40 +41,43 @@ const _sfc_main = {
         });
         return;
       }
-      loginLoading.value = true;
-      common_vendor.index.login({
-        provider: "weixin",
-        success: (res) => {
-          common_vendor.index.__f__("log", "at pages/login/login.vue:112", "微信登录成功，获取code：", res.code);
-          api_user.login({
-            code: res.code,
-            loginType: "wechat"
-          }).then((response) => {
-            common_vendor.index.__f__("log", "at pages/login/login.vue:118", "登录成功", response);
-            if (response.data && response.data.token) {
-              common_vendor.index.setStorageSync("token", response.data.token);
-              common_vendor.index.setStorageSync("userInfo", response.data.userInfo);
-              common_vendor.index.switchTab({
-                url: "/pages/user/home"
-              });
-            }
-          }).catch((error) => {
-            common_vendor.index.__f__("error", "at pages/login/login.vue:130", "登录失败", error);
+      common_vendor.index.getUserProfile({
+        desc: "用于完善用户资料",
+        lang: "zh_CN",
+        success: async (userInfoRes) => {
+          loginLoading.value = true;
+          try {
+            const loginRes = await common_vendor.index.login({ provider: "weixin" });
+            await userStore.wxLogin({
+              code: loginRes.code,
+              userInfo: userInfoRes.userInfo,
+              loginType: "wechat",
+              encryptedData: userInfoRes.encryptedData,
+              iv: userInfoRes.iv
+            });
+            common_vendor.index.switchTab({
+              url: "/pages/user/home"
+            });
             common_vendor.index.showToast({
-              title: "登录失败，请重试",
+              title: "登录成功",
+              icon: "success"
+            });
+          } catch (error) {
+            common_vendor.index.__f__("error", "at pages/login/login.vue:142", "登录失败", error);
+            common_vendor.index.showToast({
+              title: error.message || "登录失败，请重试",
               icon: "none"
             });
-          }).finally(() => {
+          } finally {
             loginLoading.value = false;
-          });
+          }
         },
         fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/login/login.vue:140", "微信登录失败", err);
+          common_vendor.index.__f__("error", "at pages/login/login.vue:152", "getUserProfile 授权失败：", err);
           common_vendor.index.showToast({
-            title: "微信登录失败，请重试",
+            title: "用户拒绝授权",
             icon: "none"
           });
-          loginLoading.value = false;
         }
       });
     };
