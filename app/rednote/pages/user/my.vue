@@ -2,11 +2,11 @@
   <view class="insta-home">
     <!-- 顶部栏 -->
     <view class="insta-header">
-      <text class="insta-username">{{ userInfo.username }}</text>
+      <text class="insta-username">{{ userInfo.email }}</text>
       <view class="insta-header-icons">
         <text class="iconfont icon-1"></text>
         <text class="iconfont icon-2"></text>
-        <text class="iconfont icon-3"></text>
+        <text class="iconfont icon-3" @tap="handleLogout"></text>
       </view>
     </view>
 
@@ -21,7 +21,7 @@
         <view class="insta-stat"><text class="stat-num">{{ userInfo.following }}</text><text class="stat-label">关注</text></view>
       </view>
     </view>
-    <view class="insta-nickname">{{ userInfo.nickname }}</view>
+    <view class="insta-nickname">{{ userInfo.username }}</view>
     <view class="insta-bio">{{ userInfo.bio }}</view>
     <view class="insta-btn-row">
       <button class="insta-btn-edit">编辑主页</button>
@@ -92,20 +92,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
+const store = useStore()
 const activeTab = ref('post')
 
-// 示例数据
-const userInfo = ref({
-  username: 'nora.1212clark',
-  nickname: 'nora',
-  avatar: 'https://placeholder.com/120x120',
-  bio: 'u deserve better',
-  posts: 1,
-  followers: 0,
-  following: 4
-})
+// 从 Vuex 获取用户信息
+const userInfo = computed(() => store.getters['user/userInfo'])
 
 const recommendedUsers = ref([
   { id: 1, avatar: 'https://placeholder.com/80x80', username: 'xiaox.iao04', desc: '已关注 kelsey041121' },
@@ -117,14 +111,28 @@ const myPosts = ref([
   { id: 1, images: ['https://placeholder.com/300x300'] },
   { id: 2, images: ['https://placeholder.com/300x300'] },
   { id: 3, images: ['https://placeholder.com/300x300'] }
-  // ...更多图片
 ])
 
 const myVideos = ref([
   { id: 1, cover: 'https://placeholder.com/300x300' },
   { id: 2, cover: 'https://placeholder.com/300x300' }
-  // ...更多视频
 ])
+
+// 退出登录方法
+const handleLogout = () => {
+  uni.showModal({
+    title: '提示',
+    content: '确定要退出登录吗？',
+    success: (res) => {
+      if (res.confirm) {
+        store.dispatch('user/logout')
+        uni.reLaunch({
+          url: '/pages/login/login'
+        })
+      }
+    }
+  })
+}
 </script>
 
 <style>

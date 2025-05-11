@@ -30,19 +30,68 @@ if (!Math) {
   "./pages/agreement/privacy-policy.js";
   "./pages/agreement/buyer-notice.js";
 }
-const _sfc_main = {
-  onLaunch: function() {
-    common_vendor.index.__f__("log", "at App.vue:4", "App Launch");
-  },
-  onShow: function() {
-    common_vendor.index.__f__("log", "at App.vue:7", "App Show");
-  },
-  onHide: function() {
-    common_vendor.index.__f__("log", "at App.vue:10", "App Hide");
-  }
+const pages = [
+  "pages/home/index",
+  "pages/explore/index",
+  "pages/publish/index",
+  "pages/message/index",
+  "pages/profile/index"
+];
+const window = {
+  backgroundTextStyle: "light",
+  navigationBarBackgroundColor: "#fff",
+  navigationBarTitleText: "旅行日记",
+  navigationBarTextStyle: "black"
+};
+const tabBar = {
+  color: "#999999",
+  selectedColor: "#b2e6e0",
+  backgroundColor: "#ffffff",
+  borderStyle: "black",
+  list: [
+    {
+      pagePath: "pages/home/index",
+      text: "首页",
+      iconPath: "static/tabbar/normal/home.png",
+      selectedIconPath: "static/tabbar/active/home-active.png"
+    },
+    {
+      pagePath: "pages/explore/index",
+      text: "发现",
+      iconPath: "static/tabbar/normal/explore.png",
+      selectedIconPath: "static/tabbar/active/explore-active.png"
+    },
+    {
+      pagePath: "pages/publish/index",
+      text: "发布",
+      iconPath: "static/tabbar/normal/publish.png",
+      selectedIconPath: "static/tabbar/active/publish-active.png"
+    },
+    {
+      pagePath: "pages/message/index",
+      text: "消息",
+      iconPath: "static/tabbar/normal/message.png",
+      selectedIconPath: "static/tabbar/active/message-active.png"
+    },
+    {
+      pagePath: "pages/profile/index",
+      text: "我的",
+      iconPath: "static/tabbar/normal/profile.png",
+      selectedIconPath: "static/tabbar/active/profile-active.png"
+    }
+  ]
+};
+const style = "v2";
+const sitemapLocation = "sitemap.json";
+const App = {
+  pages,
+  window,
+  tabBar,
+  style,
+  sitemapLocation
 };
 function createApp() {
-  const app = common_vendor.createSSRApp(_sfc_main);
+  const app = common_vendor.createSSRApp(App);
   return {
     app
   };

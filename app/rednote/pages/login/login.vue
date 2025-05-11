@@ -65,8 +65,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { login } from '@/api/user' // 假设你有一个用户API模块
+import { useStore } from 'vuex'
 
+const store = useStore()
 const showHelp = ref(false)
 const showOtherMenu = ref(false)
 const checked = ref(false)
@@ -81,6 +82,13 @@ const toggleOtherMenu = () => {
   showHelp.value = false
 }
 const goPhoneLogin = () => {
+  if (!checked.value) {
+    uni.showToast({
+      title: '请先阅读并同意相关协议',
+      icon: 'none'
+    })
+    return
+  }
   uni.navigateTo({ url: '/pages/login/phone' })
 }
 
@@ -92,7 +100,7 @@ const goToAgreement = (type) => {
 }
 
 // 微信登录方法
-const wxLogin = () => {
+const wxLogin = async () => {
   // 检查是否同意协议
   if (!checked.value) {
     uni.showToast({
@@ -105,46 +113,45 @@ const wxLogin = () => {
   // 显示加载状态
   loginLoading.value = true
   
-  // 调用uni-app的登录方法获取code
-  uni.login({
-    provider: 'weixin',
-    success: (res) => {
-      console.log('微信登录成功，获取code：', res.code)
-      // 将code发送到后端
-      login({
-        code: res.code,
-        loginType: 'wechat'
-      }).then(response => {
-        console.log('登录成功', response)
-        // 登录成功后保存token
-        if (response.data && response.data.token) {
-          uni.setStorageSync('token', response.data.token)
-          uni.setStorageSync('userInfo', response.data.userInfo)
-          
-          // 跳转到首页
-          uni.switchTab({
-            url: '/pages/user/home'
-          })
-        }
-      }).catch(error => {
-        console.error('登录失败', error)
-        uni.showToast({
-          title: '登录失败，请重试',
-          icon: 'none'
-        })
-      }).finally(() => {
-        loginLoading.value = false
-      })
-    },
-    fail: (err) => {
-      console.error('微信登录失败', err)
-      uni.showToast({
-        title: '微信登录失败，请重试',
-        icon: 'none'
-      })
-      loginLoading.value = false
-    }
-  })
+  try {
+    // 调用uni-app的登录方法获取code
+    const loginRes = await uni.login({
+      provider: 'weixin'
+    })
+    
+    // 获取用户信息
+    const userInfoRes = await uni.getUserProfile({
+      desc: '用于完善用户资料',
+      lang: 'zh_CN'
+    })
+    
+    // 调用 Vuex action 进行登录
+    await store.dispatch('user/wxLogin', {
+      code: loginRes.code,
+      userInfo: userInfoRes.userInfo,
+      loginType: 'wechat',
+      encryptedData: userInfoRes.encryptedData,
+      iv: userInfoRes.iv
+    })
+    
+    // 登录成功，跳转到首页
+    uni.switchTab({
+      url: '/pages/user/home'
+    })
+    
+    uni.showToast({
+      title: '登录成功',
+      icon: 'success'
+    })
+  } catch (error) {
+    console.error('登录失败', error)
+    uni.showToast({
+      title: error.message || '登录失败，请重试',
+      icon: 'none'
+    })
+  } finally {
+    loginLoading.value = false
+  }
 }
 </script>
 

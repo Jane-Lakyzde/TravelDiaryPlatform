@@ -1,17 +1,17 @@
 // src/api/post.js
-import request from '@/utils/request';
+import http from '../axios.js'
 
 // 发布帖子
 export const createPost = (data) => {
-  return request.post('/posts', data);
+  return http.post('/posts', data);
 };
 
 // 获取所有帖子
 export const getPosts = () => {
-  return request.get('/posts');
+  return http.get('/posts');
 };
 
 // 获取某个用户的帖子
 export const getUserPosts = (userId) => {
-  return request.get(`/posts/user/${userId}`);
+  return http.get(`/posts/user/${userId}`);
 };
