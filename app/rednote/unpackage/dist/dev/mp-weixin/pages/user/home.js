@@ -5,10 +5,21 @@ const _sfc_main = {
   __name: "home",
   setup(__props) {
     common_vendor.ref("");
-    const leftPosts = common_vendor.ref([]);
-    const rightPosts = common_vendor.ref([]);
     const showSidebar = common_vendor.ref(false);
     const activeTab = common_vendor.ref("discover");
+    const posts = common_vendor.computed(() => {
+      return activeTab.value === "discover" ? data_posts.getDiscoverPosts() : data_posts.getFollowedPosts();
+    });
+    const leftPosts = common_vendor.computed(() => {
+      const allPosts = posts.value;
+      const midIndex = Math.ceil(allPosts.length / 2);
+      return allPosts.slice(0, midIndex);
+    });
+    const rightPosts = common_vendor.computed(() => {
+      const allPosts = posts.value;
+      const midIndex = Math.ceil(allPosts.length / 2);
+      return allPosts.slice(midIndex);
+    });
     const toggleSidebar = () => {
       showSidebar.value = !showSidebar.value;
     };
@@ -26,54 +37,6 @@ const _sfc_main = {
     const navigateTo = (url) => {
       common_vendor.index.navigateTo({ url });
       closeSidebar();
-    };
-    const getPostTypeIcon = (post) => {
-      if (post.video)
-        return "icon-video";
-      if (post.images && post.images.length > 0) {
-        return post.images.length > 1 ? "icon-gallery" : "icon-image";
-      }
-      return "";
-    };
-    const getPostContentClass = (post) => {
-      if (post.video)
-        return "content-with-video";
-      if (post.images && post.images.length > 0) {
-        return post.images.length > 1 ? "content-with-gallery" : "content-with-image";
-      }
-      return "";
-    };
-    const handleLike = (post) => {
-      post.isLiked = !post.isLiked;
-      post.likes += post.isLiked ? 1 : -1;
-    };
-    const handleComment = (post) => {
-      common_vendor.index.__f__("log", "at pages/user/home.vue:301", "评论帖子:", post.id);
-    };
-    const handleShare = (post) => {
-      common_vendor.index.share({
-        provider: "weixin",
-        scene: "WXSceneSession",
-        type: 0,
-        title: post.content,
-        success: function(res) {
-          common_vendor.index.__f__("log", "at pages/user/home.vue:313", "分享成功:", res);
-        },
-        fail: function(err) {
-          common_vendor.index.__f__("log", "at pages/user/home.vue:316", "分享失败:", err);
-        }
-      });
-    };
-    const previewImage = (images, current) => {
-      common_vendor.index.previewImage({
-        urls: images,
-        current: images[current]
-      });
-    };
-    const playVideo = (video) => {
-      common_vendor.index.navigateTo({
-        url: `/pages/video/player?url=${encodeURIComponent(video.url)}`
-      });
     };
     common_vendor.onMounted(() => {
       const allPosts = data_posts.initialPosts;
@@ -113,66 +76,47 @@ const _sfc_main = {
         z: activeTab.value === "discover"
       }, activeTab.value === "discover" ? {
         A: common_vendor.f(leftPosts.value, (post, k0, i0) => {
-          return common_vendor.e({
-            a: post.avatar,
-            b: common_vendor.t(post.username),
-            c: common_vendor.t(post.time),
-            d: common_vendor.n(getPostTypeIcon(post)),
-            e: common_vendor.t(post.content),
-            f: post.images && post.images.length > 0
-          }, post.images && post.images.length > 0 ? common_vendor.e({
-            g: post.images[0],
-            h: common_vendor.o(($event) => previewImage(post.images, 0), post.id),
-            i: post.images.length > 1
-          }, post.images.length > 1 ? {
-            j: common_vendor.t(post.images.length)
-          } : {}) : {}, {
-            k: post.video
-          }, post.video ? {
-            l: post.video.cover,
-            m: common_vendor.o(($event) => playVideo(post.video), post.id)
-          } : {}, {
-            n: common_vendor.n(getPostContentClass(post)),
-            o: common_vendor.t(post.likes),
-            p: common_vendor.n(post.isLiked ? "active" : ""),
-            q: common_vendor.o(($event) => handleLike(post), post.id),
-            r: common_vendor.t(post.comments),
-            s: common_vendor.o(($event) => handleComment(post), post.id),
-            t: common_vendor.o(($event) => handleShare(post), post.id),
-            v: post.id
-          });
+          return {
+            a: post.cover,
+            b: common_vendor.t(post.title),
+            c: post.avatar,
+            d: common_vendor.t(post.author),
+            e: common_vendor.t(post.likes),
+            f: post.id
+          };
         }),
         B: common_vendor.f(rightPosts.value, (post, k0, i0) => {
-          return common_vendor.e({
-            a: post.avatar,
-            b: common_vendor.t(post.username),
-            c: common_vendor.t(post.time),
-            d: common_vendor.n(getPostTypeIcon(post)),
-            e: common_vendor.t(post.content),
-            f: post.images && post.images.length > 0
-          }, post.images && post.images.length > 0 ? common_vendor.e({
-            g: post.images[0],
-            h: common_vendor.o(($event) => previewImage(post.images, 0), post.id),
-            i: post.images.length > 1
-          }, post.images.length > 1 ? {
-            j: common_vendor.t(post.images.length)
-          } : {}) : {}, {
-            k: post.video
-          }, post.video ? {
-            l: post.video.cover,
-            m: common_vendor.o(($event) => playVideo(post.video), post.id)
-          } : {}, {
-            n: common_vendor.n(getPostContentClass(post)),
-            o: common_vendor.t(post.likes),
-            p: common_vendor.n(post.isLiked ? "active" : ""),
-            q: common_vendor.o(($event) => handleLike(post), post.id),
-            r: common_vendor.t(post.comments),
-            s: common_vendor.o(($event) => handleComment(post), post.id),
-            t: common_vendor.o(($event) => handleShare(post), post.id),
-            v: post.id
-          });
+          return {
+            a: post.cover,
+            b: common_vendor.t(post.title),
+            c: post.avatar,
+            d: common_vendor.t(post.author),
+            e: common_vendor.t(post.likes),
+            f: post.id
+          };
         })
-      } : {});
+      } : {
+        C: common_vendor.f(leftPosts.value, (post, k0, i0) => {
+          return {
+            a: post.cover,
+            b: common_vendor.t(post.title),
+            c: post.avatar,
+            d: common_vendor.t(post.author),
+            e: common_vendor.t(post.likes),
+            f: post.id
+          };
+        }),
+        D: common_vendor.f(rightPosts.value, (post, k0, i0) => {
+          return {
+            a: post.cover,
+            b: common_vendor.t(post.title),
+            c: post.avatar,
+            d: common_vendor.t(post.author),
+            e: common_vendor.t(post.likes),
+            f: post.id
+          };
+        })
+      });
     };
   }
 };

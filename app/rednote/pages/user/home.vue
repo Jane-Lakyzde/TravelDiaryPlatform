@@ -105,121 +105,30 @@
     <view class="content-container">
       <!-- 发现页面 -->
       <view v-if="activeTab === 'discover'" class="posts-container">
-        <view class="posts-grid">
-          <!-- 左侧帖子列表 -->
-          <view class="posts-column">
-            <view v-for="post in leftPosts" :key="post.id" class="post-card">
-              <view class="post-header">
-                <image :src="post.avatar" class="avatar" mode="aspectFill" />
-                <view class="user-info">
-                  <text class="username">{{ post.username }}</text>
-                  <text class="post-time">{{ post.time }}</text>
-                </view>
-                <view class="post-type">
-                  <text class="iconfont" :class="getPostTypeIcon(post)"></text>
-                </view>
-              </view>
-              <view class="post-content" :class="getPostContentClass(post)">
-                <text class="post-text">{{ post.content }}</text>
-                <view v-if="post.images && post.images.length > 0" class="media-container">
-                  <image
-                    :src="post.images[0]"
-                    class="post-media"
-                    mode="aspectFill"
-                    @tap="previewImage(post.images, 0)"
-                  />
-                  <view v-if="post.images.length > 1" class="image-count">
-                    <text class="iconfont icon-gallery"></text>
-                    <text>{{ post.images.length }}</text>
-                  </view>
-                </view>
-                <view v-if="post.video" class="media-container">
-                  <image
-                    :src="post.video.cover"
-                    class="post-media"
-                    mode="aspectFill"
-                    @tap="playVideo(post.video)"
-                  />
-                  <view class="video-play-icon">
-                    <text class="iconfont icon-play"></text>
-                  </view>
-                </view>
-              </view>
-              <view class="post-actions">
-                <button
-                  :class="['action-btn', post.isLiked ? 'active' : '']"
-                  @tap="handleLike(post)"
-                >
-                  <text class="iconfont icon-star"></text>
-                  <text>{{ post.likes }}</text>
-                </button>
-                <button class="action-btn" @tap="handleComment(post)">
-                  <text class="iconfont icon-comment"></text>
-                  <text>{{ post.comments }}</text>
-                </button>
-                <button class="action-btn" @tap="handleShare(post)">
-                  <text class="iconfont icon-share"></text>
-                  <text>分享</text>
-                </button>
+        <view class="masonry">
+          <!-- 左列 -->
+          <view class="masonry-column">
+            <view v-for="post in leftPosts" :key="post.id" class="masonry-card">
+              <image :src="post.cover" class="card-cover" />
+              <view class="card-title">{{ post.title }}</view>
+              <view class="card-bottom">
+                <image :src="post.avatar" class="card-avatar" />
+                <text class="card-author">{{ post.author }}</text>
+                <text class="card-like iconfont icon-like"></text>
+                <text class="card-like-num">{{ post.likes }}</text>
               </view>
             </view>
           </view>
-
-          <!-- 右侧帖子列表 -->
-          <view class="posts-column">
-            <view v-for="post in rightPosts" :key="post.id" class="post-card">
-              <view class="post-header">
-                <image :src="post.avatar" class="avatar" mode="aspectFill" />
-                <view class="user-info">
-                  <text class="username">{{ post.username }}</text>
-                  <text class="post-time">{{ post.time }}</text>
-                </view>
-                <view class="post-type">
-                  <text class="iconfont" :class="getPostTypeIcon(post)"></text>
-                </view>
-              </view>
-              <view class="post-content" :class="getPostContentClass(post)">
-                <text class="post-text">{{ post.content }}</text>
-                <view v-if="post.images && post.images.length > 0" class="media-container">
-                  <image
-                    :src="post.images[0]"
-                    class="post-media"
-                    mode="aspectFill"
-                    @tap="previewImage(post.images, 0)"
-                  />
-                  <view v-if="post.images.length > 1" class="image-count">
-                    <text class="iconfont icon-gallery"></text>
-                    <text>{{ post.images.length }}</text>
-                  </view>
-                </view>
-                <view v-if="post.video" class="media-container">
-                  <image
-                    :src="post.video.cover"
-                    class="post-media"
-                    mode="aspectFill"
-                    @tap="playVideo(post.video)"
-                  />
-                  <view class="video-play-icon">
-                    <text class="iconfont icon-play"></text>
-                  </view>
-                </view>
-              </view>
-              <view class="post-actions">
-                <button
-                  :class="['action-btn', post.isLiked ? 'active' : '']"
-                  @tap="handleLike(post)"
-                >
-                  <text class="iconfont icon-star"></text>
-                  <text>{{ post.likes }}</text>
-                </button>
-                <button class="action-btn" @tap="handleComment(post)">
-                  <text class="iconfont icon-comment"></text>
-                  <text>{{ post.comments }}</text>
-                </button>
-                <button class="action-btn" @tap="handleShare(post)">
-                  <text class="iconfont icon-share"></text>
-                  <text>分享</text>
-                </button>
+          <!-- 右列 -->
+          <view class="masonry-column">
+            <view v-for="post in rightPosts" :key="post.id" class="masonry-card">
+              <image :src="post.cover" class="card-cover" />
+              <view class="card-title">{{ post.title }}</view>
+              <view class="card-bottom">
+                <image :src="post.avatar" class="card-avatar" />
+                <text class="card-author">{{ post.author }}</text>
+                <text class="card-like iconfont icon-like"></text>
+                <text class="card-like-num">{{ post.likes }}</text>
               </view>
             </view>
           </view>
@@ -228,21 +137,65 @@
 
       <!-- 关注页面 -->
       <view v-else class="follow-container">
-        <text>关注页面内容</text>
+        <view class="masonry">
+          <!-- 左列 -->
+          <view class="masonry-column">
+            <view v-for="post in leftPosts" :key="post.id" class="masonry-card">
+              <image :src="post.cover" class="card-cover" />
+              <view class="card-title">{{ post.title }}</view>
+              <view class="card-bottom">
+                <image :src="post.avatar" class="card-avatar" />
+                <text class="card-author">{{ post.author }}</text>
+                <text class="card-like iconfont icon-like"></text>
+                <text class="card-like-num">{{ post.likes }}</text>
+              </view>
+            </view>
+          </view>
+          <!-- 右列 -->
+          <view class="masonry-column">
+            <view v-for="post in rightPosts" :key="post.id" class="masonry-card">
+              <image :src="post.cover" class="card-cover" />
+              <view class="card-title">{{ post.title }}</view>
+              <view class="card-bottom">
+                <image :src="post.avatar" class="card-avatar" />
+                <text class="card-author">{{ post.author }}</text>
+                <text class="card-like iconfont icon-like"></text>
+                <text class="card-like-num">{{ post.likes }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
+    
   </view>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { initialPosts } from '../../data/posts.js'
+import { ref, onMounted, computed } from 'vue'
+import { initialPosts, getFollowedPosts, getDiscoverPosts } from '../../data/posts.js'
 
 const searchText = ref('')
-const leftPosts = ref([])
-const rightPosts = ref([])
 const showSidebar = ref(false)
 const activeTab = ref('discover')
+
+// 计算属性：根据当前标签获取帖子
+const posts = computed(() => {
+  return activeTab.value === 'discover' ? getDiscoverPosts() : getFollowedPosts()
+})
+
+// 计算属性：将帖子分配到左右两列
+const leftPosts = computed(() => {
+  const allPosts = posts.value
+  const midIndex = Math.ceil(allPosts.length / 2)
+  return allPosts.slice(0, midIndex)
+})
+
+const rightPosts = computed(() => {
+  const allPosts = posts.value
+  const midIndex = Math.ceil(allPosts.length / 2)
+  return allPosts.slice(midIndex)
+})
 
 // 切换侧边栏
 const toggleSidebar = () => {
@@ -308,7 +261,7 @@ const handleShare = (post) => {
     provider: 'weixin',
     scene: 'WXSceneSession',
     type: 0,
-    title: post.content,
+    title: post.title,
     success: function (res) {
       console.log('分享成功:', res)
     },
@@ -478,145 +431,65 @@ onMounted(() => {
   padding: 20rpx;
 }
 
-.posts-grid {
+.masonry {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 16rpx;
 }
-
-.posts-column {
-  width: 48%;
-}
-
-.post-card {
-  background-color: #ffffff;
-  border-radius: 12rpx;
-  margin-bottom: 20rpx;
-  padding: 20rpx;
-  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20rpx;
-  position: relative;
-}
-
-.avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-}
-
-.user-info {
-  margin-left: 20rpx;
+.masonry-column {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
-
-.username {
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #333333;
-}
-
-.post-time {
-  font-size: 24rpx;
-  color: #999999;
-  margin-top: 4rpx;
-}
-
-.post-type {
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: #666666;
-  font-size: 32rpx;
-}
-
-.post-content {
-  margin-bottom: 20rpx;
-}
-
-.post-text {
-  font-size: 28rpx;
-  color: #333333;
-  line-height: 1.5;
-  margin-bottom: 20rpx;
-}
-
-.media-container {
-  position: relative;
+.masonry-card {
   width: 100%;
-  border-radius: 8rpx;
+  background: #fff;
+  border-radius: 18rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.08);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
-
-.post-media {
+.card-cover {
   width: 100%;
-  height: 400rpx;
-  border-radius: 8rpx;
+  aspect-ratio: 3/4; /* 或用固定高度 */
+  object-fit: cover;
 }
-
-.image-count {
-  position: absolute;
-  top: 20rpx;
-  right: 20rpx;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
-  padding: 8rpx 16rpx;
-  border-radius: 20rpx;
-  font-size: 24rpx;
+.card-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  margin: 16rpx 12rpx 0 12rpx;
+  color: #222;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+.card-bottom {
   display: flex;
   align-items: center;
+  margin: 12rpx;
+  font-size: 24rpx;
+  color: #888;
 }
-
-.image-count text {
-  margin-left: 8rpx;
-}
-
-.video-play-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80rpx;
-  height: 80rpx;
-  background-color: rgba(0, 0, 0, 0.5);
+.card-avatar {
+  width: 36rpx;
+  height: 36rpx;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-right: 10rpx;
 }
-
-.video-play-icon text {
-  color: #ffffff;
-  font-size: 40rpx;
+.card-author {
+  margin-right: auto;
+  color: #666;
 }
-
-.post-actions {
-  display: flex;
-  justify-content: space-around;
-  border-top: 1rpx solid #eeeeee;
-  padding-top: 20rpx;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  font-size: 24rpx;
-  color: #666666;
-  padding: 0;
-}
-
-.action-btn.active {
-  color: #007AFF;
-}
-
-.action-btn text {
+.card-like {
   margin-left: 8rpx;
+  color: #888;
+}
+.card-like-num {
+  margin-left: 2rpx;
+  color: #888;
 }
 
 /* 图标字体 */
@@ -703,6 +576,7 @@ onMounted(() => {
 
 .icon-menu:before { content: '\e77f'; }
 .icon-search:before { content: '\e889'; }
+.icon-like:before { content: '\e61b'; }
 .icon-plus:before { content: '\e6da'; }
 .icon-star:before { content: '\e7df'; }
 .icon-comment:before { content: '\e8e8'; }

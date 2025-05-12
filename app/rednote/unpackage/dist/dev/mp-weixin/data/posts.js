@@ -1,109 +1,106 @@
 "use strict";
-const initialPosts = [
+const users = [
   {
     id: 1,
     username: "张三",
-    avatar: "https://placeholder.com/40x40",
-    time: "2小时前",
-    content: "今天天气真好，分享一张美丽的风景照！",
-    images: [
-      "https://placeholder.com/300x200",
-      "https://placeholder.com/300x200"
-    ],
-    likes: 10,
-    comments: 5,
-    isLiked: false
+    avatar: "https://picsum.photos/200",
+    isFollowing: true
   },
   {
     id: 2,
     username: "李四",
-    avatar: "https://placeholder.com/40x40",
-    time: "3小时前",
-    content: "新买的相机到了，拍了几张照片，大家觉得怎么样？",
-    images: [
-      "https://placeholder.com/300x200"
-    ],
-    likes: 15,
-    comments: 8,
-    isLiked: true
+    avatar: "https://picsum.photos/201",
+    isFollowing: true
   },
   {
     id: 3,
     username: "王五",
-    avatar: "https://placeholder.com/40x40",
-    time: "5小时前",
-    content: "分享一个有趣的小故事...",
-    images: [],
-    likes: 20,
-    comments: 12,
-    isLiked: false
+    avatar: "https://picsum.photos/202",
+    isFollowing: false
   },
   {
     id: 4,
     username: "赵六",
-    avatar: "https://placeholder.com/40x40",
-    time: "1天前",
-    content: "周末去爬山，风景太美了！",
-    images: [
-      "https://placeholder.com/300x200",
-      "https://placeholder.com/300x200",
-      "https://placeholder.com/300x200"
-    ],
-    likes: 30,
-    comments: 15,
-    isLiked: false
+    avatar: "https://picsum.photos/203",
+    isFollowing: true
+  }
+];
+const initialPosts = [
+  {
+    id: 1,
+    authorId: 1,
+    title: "美丽的风景照",
+    cover: "https://picsum.photos/400/600",
+    author: "张三",
+    avatar: "https://picsum.photos/200",
+    likes: 120,
+    isLiked: false,
+    time: "2小时前"
+  },
+  {
+    id: 2,
+    authorId: 2,
+    title: "新相机试拍",
+    cover: "https://picsum.photos/401/600",
+    author: "李四",
+    avatar: "https://picsum.photos/201",
+    likes: 85,
+    isLiked: true,
+    time: "3小时前"
+  },
+  {
+    id: 3,
+    authorId: 3,
+    title: "城市夜景",
+    cover: "https://picsum.photos/402/600",
+    author: "王五",
+    avatar: "https://picsum.photos/202",
+    likes: 200,
+    isLiked: false,
+    time: "5小时前"
+  },
+  {
+    id: 4,
+    authorId: 4,
+    title: "周末爬山记",
+    cover: "https://picsum.photos/403/600",
+    author: "赵六",
+    avatar: "https://picsum.photos/203",
+    likes: 150,
+    isLiked: false,
+    time: "1天前"
   },
   {
     id: 5,
-    username: "钱七",
-    avatar: "https://placeholder.com/40x40",
-    time: "1天前",
-    content: "新学了一道菜，分享给大家！",
-    images: [
-      "https://placeholder.com/300x200"
-    ],
-    likes: 25,
-    comments: 10,
-    isLiked: true
+    authorId: 1,
+    title: "美食分享",
+    cover: "https://picsum.photos/404/600",
+    author: "张三",
+    avatar: "https://picsum.photos/200",
+    likes: 95,
+    isLiked: true,
+    time: "1天前"
   },
   {
     id: 6,
-    username: "孙八",
-    avatar: "https://placeholder.com/40x40",
-    time: "2天前",
-    content: "今天去看了新上映的电影，强烈推荐！",
-    images: [],
-    likes: 18,
-    comments: 7,
-    isLiked: false
-  },
-  {
-    id: 7,
-    username: "周九",
-    avatar: "https://placeholder.com/40x40",
-    time: "2天前",
-    content: "分享一个有趣的小视频",
-    images: [
-      "https://placeholder.com/300x200"
-    ],
-    likes: 22,
-    comments: 9,
-    isLiked: false
-  },
-  {
-    id: 8,
-    username: "吴十",
-    avatar: "https://placeholder.com/40x40",
-    time: "3天前",
-    content: "今天去公园散步，拍了一些照片",
-    images: [
-      "https://placeholder.com/300x200",
-      "https://placeholder.com/300x200"
-    ],
-    likes: 16,
-    comments: 6,
-    isLiked: true
+    authorId: 2,
+    title: "旅行日记",
+    cover: "https://picsum.photos/405/600",
+    author: "李四",
+    avatar: "https://picsum.photos/201",
+    likes: 180,
+    isLiked: false,
+    time: "2天前"
   }
 ];
+const getFollowedPosts = () => {
+  const followedUserIds = users.filter((user) => user.isFollowing).map((user) => user.id);
+  return initialPosts.filter((post) => followedUserIds.includes(post.authorId));
+};
+const getDiscoverPosts = () => {
+  return initialPosts;
+};
+exports.getDiscoverPosts = getDiscoverPosts;
+exports.getFollowedPosts = getFollowedPosts;
 exports.initialPosts = initialPosts;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/data/posts.js.map

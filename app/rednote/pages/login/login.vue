@@ -117,7 +117,7 @@ const wxLogin = () => {
     success: async (userInfoRes) => {
       loginLoading.value = true
       try {
-        // 获取微信 code
+        // 获取微信 codes
         const loginRes = await uni.login({ provider: 'weixin' })
 
         // 调用后端微信登录
