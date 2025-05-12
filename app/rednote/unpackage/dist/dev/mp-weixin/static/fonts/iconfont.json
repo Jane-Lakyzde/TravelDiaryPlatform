@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4354835",
+      "name": "闭眼睛",
+      "font_class": "biyanjing",
+      "unicode": "e901",
+      "unicode_decimal": 59649
+    },
+    {
+      "icon_id": "8361844",
+      "name": "眼睛3",
+      "font_class": "yanjing",
+      "unicode": "e6cf",
+      "unicode_decimal": 59087
+    },
+    {
+      "icon_id": "8361861",
+      "name": "眼睛4",
+      "font_class": "yanjing1",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
       "icon_id": "5203226",
       "name": "爱心",
       "font_class": "aixin",

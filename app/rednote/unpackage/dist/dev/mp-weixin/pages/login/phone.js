@@ -10,10 +10,8 @@ const _sfc_main = {
     const password = common_vendor.ref("");
     const areaCodes = common_vendor.ref(["+86", "+852", "+853", "+886"]);
     const areaIndex = common_vendor.ref(0);
+    const showPassword = common_vendor.ref(false);
     common_vendor.ref(false);
-    const goBack = () => {
-      common_vendor.index.navigateBack();
-    };
     const toggleHelp = () => {
       showHelp.value = !showHelp.value;
     };
@@ -51,33 +49,35 @@ const _sfc_main = {
         common_vendor.index.reLaunch({ url: "/pages/user/home" });
       } catch (err) {
         common_vendor.index.showToast({ title: err.message || "登录失败", icon: "none" });
-        common_vendor.index.__f__("error", "at pages/login/phone.vue:97", "登录错误：", err);
+        common_vendor.index.__f__("error", "at pages/login/phone.vue:96", "登录错误：", err);
       }
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
-        a: common_vendor.o(goBack),
-        b: common_vendor.o(toggleHelp),
-        c: showHelp.value
+        a: common_vendor.o(toggleHelp),
+        b: showHelp.value
       }, showHelp.value ? {
-        d: common_vendor.o(() => {
+        c: common_vendor.o(() => {
         })
       } : {}, {
-        e: common_vendor.t(areaCodes.value[areaIndex.value]),
-        f: areaCodes.value,
-        g: areaIndex.value,
-        h: common_vendor.o(onAreaChange),
-        i: phone.value,
-        j: common_vendor.o(($event) => phone.value = $event.detail.value),
+        d: common_vendor.t(areaCodes.value[areaIndex.value]),
+        e: areaCodes.value,
+        f: areaIndex.value,
+        g: common_vendor.o(onAreaChange),
+        h: phone.value,
+        i: common_vendor.o(($event) => phone.value = $event.detail.value),
+        j: showPassword.value ? "text" : "password",
         k: password.value,
         l: common_vendor.o(($event) => password.value = $event.detail.value),
-        m: !canSubmit.value,
-        n: common_vendor.o(onConfirm),
-        o: common_vendor.o(goPwdLogin),
-        p: checked.value
+        m: common_vendor.n(showPassword.value ? "icon-eye-open" : "icon-eye-close"),
+        n: common_vendor.o(($event) => showPassword.value = !showPassword.value),
+        o: !canSubmit.value,
+        p: common_vendor.o(onConfirm),
+        q: common_vendor.o(goPwdLogin),
+        r: checked.value
       }, checked.value ? {} : {}, {
-        q: checked.value ? 1 : "",
-        r: common_vendor.o(($event) => checked.value = !checked.value)
+        s: checked.value ? 1 : "",
+        t: common_vendor.o(($event) => checked.value = !checked.value)
       });
     };
   }

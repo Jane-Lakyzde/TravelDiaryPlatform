@@ -18,7 +18,7 @@ const _sfc_main = {
       showOtherMenu.value = !showOtherMenu.value;
       showHelp.value = false;
     };
-    const goPhoneLogin = () => {
+    const goPhoneLogin = async () => {
       if (!checked.value) {
         common_vendor.index.showToast({
           title: "请先阅读并同意相关协议",
@@ -26,7 +26,15 @@ const _sfc_main = {
         });
         return;
       }
-      common_vendor.index.navigateTo({ url: "/pages/login/phone" });
+      try {
+        await common_vendor.index.navigateTo({ url: "/pages/login/phone" });
+      } catch (error) {
+        common_vendor.index.__f__("error", "at pages/login/login.vue:94", "Navigation failed:", error);
+        common_vendor.index.showToast({
+          title: "导航失败，请重试",
+          icon: "none"
+        });
+      }
     };
     const goToAgreement = (type) => {
       common_vendor.index.navigateTo({
@@ -63,7 +71,7 @@ const _sfc_main = {
               icon: "success"
             });
           } catch (error) {
-            common_vendor.index.__f__("error", "at pages/login/login.vue:142", "登录失败", error);
+            common_vendor.index.__f__("error", "at pages/login/login.vue:149", "登录失败", error);
             common_vendor.index.showToast({
               title: error.message || "登录失败，请重试",
               icon: "none"
@@ -73,7 +81,7 @@ const _sfc_main = {
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/login/login.vue:152", "getUserProfile 授权失败：", err);
+          common_vendor.index.__f__("error", "at pages/login/login.vue:159", "getUserProfile 授权失败：", err);
           common_vendor.index.showToast({
             title: "用户拒绝授权",
             icon: "none"

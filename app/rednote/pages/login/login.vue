@@ -2,7 +2,6 @@
   <view class="login-container">
     <!-- 顶部 -->
     <view class="login-header">
-      <text class="iconfont icon-back">×</text>
       <text class="login-help" @tap="toggleHelp">遇到问题</text>
       <view v-if="showHelp" class="dropdown-menu" @tap.stop>
         <view class="dropdown-item">无法接收验证码</view>
@@ -81,7 +80,7 @@ const toggleOtherMenu = () => {
   showOtherMenu.value = !showOtherMenu.value
   showHelp.value = false
 }
-const goPhoneLogin = () => {
+const goPhoneLogin = async () => {
   if (!checked.value) {
     uni.showToast({
       title: '请先阅读并同意相关协议',
@@ -89,7 +88,15 @@ const goPhoneLogin = () => {
     })
     return
   }
-  uni.navigateTo({ url: '/pages/login/phone' })
+  try {
+    await uni.navigateTo({ url: '/pages/login/phone' })
+  } catch (error) {
+    console.error('Navigation failed:', error)
+    uni.showToast({
+      title: '导航失败，请重试',
+      icon: 'none'
+    })
+  }
 }
 
 // 跳转到协议页面

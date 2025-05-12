@@ -2,7 +2,6 @@
     <view class="phone-container">
       <!-- 顶部 -->
       <view class="phone-header">
-        <text class="iconfont icon-back" @tap="goBack"></text>
         <text class="phone-help" @tap="toggleHelp">遇到问题</text>
         <view v-if="showHelp" class="dropdown-menu" @tap.stop>
           <view class="dropdown-item">无法接收验证码</view>
@@ -22,8 +21,10 @@
       </view>
       <!-- 密码输入 -->
       <view class="input-row">
-        <input class="pwd-input" v-model="password" type="password" maxlength="20" placeholder="密码" />
+        <input class="pwd-input" v-model="password" :type="showPassword ? 'text' : 'password'" maxlength="20" placeholder="密码"/>
+        <text class="iconfont eye-icon" :class="showPassword ? 'icon-eye-open' : 'icon-eye-close'" @tap="showPassword = !showPassword"></text>
       </view>
+
       <!-- 确定按钮 -->
       <button class="confirm-btn" :disabled="!canSubmit" @tap="onConfirm">确定</button>
       <!-- 其它 -->
@@ -37,7 +38,7 @@
           <text v-if="checked" class="iconfont icon-checked"></text>
           <text v-else class="iconfont icon-unchecked"></text>
         </text>
-        <text class="protocol-text">已阅读并同意《用户协议》《隐私政策》《买家须知》。</text>
+        <text class="protocol-text">已阅读并同意《用户协议》《隐私政策》《买家须知》</text>
       </view>
     </view>
   </template>
@@ -52,11 +53,9 @@
   const password = ref('')
   const areaCodes = ref(['+86', '+852', '+853', '+886'])
   const areaIndex = ref(0)
+  const showPassword = ref(false)
   const loading = ref(false)
   
-  const goBack = () => {
-    uni.navigateBack()
-  }
   const toggleHelp = () => {
     showHelp.value = !showHelp.value
   }
@@ -105,7 +104,7 @@
     src: url('/static/fonts/iconfont.ttf') format('truetype');
   }
   .iconfont {
-    font-family: 'iconfont';
+    font-family: 'iconfont' !important;
     font-size: 32rpx;
   }
   .phone-container {
@@ -122,13 +121,15 @@
     padding: 40rpx 0 0 0;
     position: relative;
   }
-  .icon-back:before { content: '\2039'; font-size: 48rpx; color: #222; }
-  .phone-help {
+.icon-back:before { content: '\2039'; font-size: 48rpx; color: #222; }
+.phone-help {
     font-size: 28rpx;
     color: #999;
     position: absolute;
-    right: 0;
-  }
+    right: 60rpx;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
   .dropdown-menu {
     position: absolute;
     top: 60rpx;
@@ -163,6 +164,7 @@
     align-items: center;
     border-bottom: 2rpx solid #eee;
     margin-bottom: 40rpx;
+    position: relative;
   }
   .area-code {
     font-size: 32rpx;
@@ -191,8 +193,8 @@
   .confirm-btn {
     width: 100%;
     height: 88rpx;
-    background: #b2e6e0;
-    color: #fff;
+    color: #888;
+    background: #DB9EA2;
     font-size: 32rpx;
     border-radius: 8rpx;
     margin: 40rpx 0 0 0;
@@ -201,8 +203,7 @@
     justify-content: center;
   }
   .confirm-btn:disabled {
-    background: #e0e0e0;
-    color: #aaa;
+    opacity: 0.9;
   }
   .phone-links {
     display: flex;
@@ -236,8 +237,8 @@
     background: #fff;
   }
   .checkbox.checked {
-    border-color: #3cc51f;
-    background: #3cc51f;
+    border-color: #DB9EA2;
+    background: #DB9EA2;
   }
   .icon-checked:before { content: '\2714'; color: #fff; font-size: 28rpx; }
   .icon-unchecked:before { content: ''; }
@@ -245,5 +246,17 @@
     color: #888;
     font-size: 24rpx;
   }
+.eye-icon {
+  color: #888;
+  font-size: 40rpx;
+  padding: 10rpx;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.eye-icon.icon-eye-open:before { content: '\e6cf'; }
+.eye-icon.icon-eye-close:before { content: '\e6d1'; }
   </style>
   
