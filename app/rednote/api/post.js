@@ -1,5 +1,5 @@
 // src/api/post.js
-import http from '../axios.js'
+import http from '../utils/request.js'
 
 // 发布帖子
 export const createPost = (data) => {

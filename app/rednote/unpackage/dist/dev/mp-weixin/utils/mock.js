@@ -3,14 +3,13 @@ const DELAY = 800;
 const mockUserData = {
   token: "mock_token_abcdef123456",
   userInfo: {
-    userId: "10001",
-    nickname: "旅行者",
-    avatar: "https://via.placeholder.com/100x100",
-    gender: 1,
-    points: 1280,
-    followCount: 56,
-    fansCount: 128,
-    likeCount: 320
+    email: "10001@163.com",
+    username: "旅行者",
+    avatar: "../static/images/touxiang.jpg",
+    bio: 1,
+    posts: 0,
+    followers: 0,
+    following: 0
   }
 };
 const mockAccounts = [

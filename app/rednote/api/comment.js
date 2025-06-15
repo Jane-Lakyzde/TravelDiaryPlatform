@@ -1,5 +1,5 @@
 // src/api/comment.js
-import http from '../axios.js'
+import http from '../utils/request.js'
 
 // 发表评论
 export const addComment = (data) => {

@@ -1,5 +1,5 @@
 // src/api/follow.js
-import http from '../axios.js'
+import http from '../utils/request.js'
 
 // 关注某人
 export const followUser = (targetUserId) => {

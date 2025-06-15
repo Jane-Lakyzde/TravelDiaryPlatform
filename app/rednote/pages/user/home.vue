@@ -108,26 +108,52 @@
         <view class="masonry">
           <!-- 左列 -->
           <view class="masonry-column">
-            <view v-for="post in leftPosts" :key="post.id" class="masonry-card">
-              <image :src="post.cover" class="card-cover" />
+            <view 
+              v-for="post in leftPosts" 
+              :key="post.id" 
+              class="masonry-card"
+              @tap="viewPostDetail(post.id)"
+            >
+              <template v-if="post.video">
+                <view class="card-video-wrapper">
+                  <video :src="post.video" class="card-video" :controls="false" poster="/static/images/video-poster.jpg" />
+                  <view class="video-play-icon"><text class="iconfont icon-play"></text></view>
+                </view>
+              </template>
+              <template v-else>
+                <image :src="post.images[0]" class="card-cover" />
+              </template>
               <view class="card-title">{{ post.title }}</view>
               <view class="card-bottom">
-                <image :src="post.avatar" class="card-avatar" />
-                <text class="card-author">{{ post.author }}</text>
-                <text class="card-like iconfont icon-like"></text>
+                <image :src="post.author.avatar" class="card-avatar" />
+                <text class="card-author">{{ post.author.username }}</text>
+                <text class="card-like iconfont" :class="post.isLiked ? 'icon-liked' : 'icon-like'"></text>
                 <text class="card-like-num">{{ post.likes }}</text>
               </view>
             </view>
           </view>
           <!-- 右列 -->
           <view class="masonry-column">
-            <view v-for="post in rightPosts" :key="post.id" class="masonry-card">
-              <image :src="post.cover" class="card-cover" />
+            <view 
+              v-for="post in rightPosts" 
+              :key="post.id" 
+              class="masonry-card"
+              @tap="viewPostDetail(post.id)"
+            >
+              <template v-if="post.video">
+                <view class="card-video-wrapper">
+                  <video :src="post.video" class="card-video" :controls="false" poster="/static/images/video-poster.jpg" />
+                  <view class="video-play-icon"><text class="iconfont icon-play"></text></view>
+                </view>
+              </template>
+              <template v-else>
+                <image :src="post.images[0]" class="card-cover" />
+              </template>
               <view class="card-title">{{ post.title }}</view>
               <view class="card-bottom">
-                <image :src="post.avatar" class="card-avatar" />
-                <text class="card-author">{{ post.author }}</text>
-                <text class="card-like iconfont icon-like"></text>
+                <image :src="post.author.avatar" class="card-avatar" />
+                <text class="card-author">{{ post.author.username }}</text>
+                <text class="card-like iconfont" :class="post.isLiked ? 'icon-liked' : 'icon-like'"></text>
                 <text class="card-like-num">{{ post.likes }}</text>
               </view>
             </view>
@@ -167,21 +193,21 @@
         </view>
       </view>
     </view>
-    
   </view>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { initialPosts, getFollowedPosts, getDiscoverPosts } from '../../data/posts.js'
+import { usePostStore } from '@/store/modules/post'
 
+const postStore = usePostStore()
 const searchText = ref('')
 const showSidebar = ref(false)
 const activeTab = ref('discover')
 
 // 计算属性：根据当前标签获取帖子
 const posts = computed(() => {
-  return activeTab.value === 'discover' ? getDiscoverPosts() : getFollowedPosts()
+  return postStore.posts
 })
 
 // 计算属性：将帖子分配到左右两列
@@ -196,6 +222,13 @@ const rightPosts = computed(() => {
   const midIndex = Math.ceil(allPosts.length / 2)
   return allPosts.slice(midIndex)
 })
+
+// 查看帖子详情
+const viewPostDetail = (postId) => {
+  uni.navigateTo({
+    url: `/pages/post/detail?id=${postId}`
+  })
+}
 
 // 切换侧边栏
 const toggleSidebar = () => {
@@ -223,74 +256,6 @@ const goToSearch = () => {
 const navigateTo = (url) => {
   uni.navigateTo({ url })
   closeSidebar()
-}
-
-// 获取帖子类型图标
-const getPostTypeIcon = (post) => {
-  if (post.video) return 'icon-video'
-  if (post.images && post.images.length > 0) {
-    return post.images.length > 1 ? 'icon-gallery' : 'icon-image'
-  }
-  return ''
-}
-
-// 获取帖子内容样式类
-const getPostContentClass = (post) => {
-  if (post.video) return 'content-with-video'
-  if (post.images && post.images.length > 0) {
-    return post.images.length > 1 ? 'content-with-gallery' : 'content-with-image'
-  }
-  return ''
-}
-
-// 处理点赞
-const handleLike = (post) => {
-  post.isLiked = !post.isLiked
-  post.likes += post.isLiked ? 1 : -1
-}
-
-// 处理评论
-const handleComment = (post) => {
-  console.log('评论帖子:', post.id)
-  // 这里添加评论逻辑
-}
-
-// 处理分享
-const handleShare = (post) => {
-  uni.share({
-    provider: 'weixin',
-    scene: 'WXSceneSession',
-    type: 0,
-    title: post.title,
-    success: function (res) {
-      console.log('分享成功:', res)
-    },
-    fail: function (err) {
-      console.log('分享失败:', err)
-    }
-  })
-}
-
-// 处理发帖
-const handleCreatePost = () => {
-  uni.navigateTo({
-    url: '/pages/user/post'
-  })
-}
-
-// 预览图片
-const previewImage = (images, current) => {
-  uni.previewImage({
-    urls: images,
-    current: images[current]
-  })
-}
-
-// 播放视频
-const playVideo = (video) => {
-  uni.navigateTo({
-    url: `/pages/video/player?url=${encodeURIComponent(video.url)}`
-  })
 }
 
 onMounted(() => {
@@ -430,7 +395,9 @@ onMounted(() => {
 .posts-container {
   padding: 20rpx;
 }
-
+.follow-container {
+  padding: 20rpx;
+}
 .masonry {
   display: flex;
   flex-direction: row;
@@ -599,4 +566,12 @@ onMounted(() => {
 .icon-guideline:before { content: '\e608'; }
 .icon-scan:before { content: '\e609'; }
 .icon-support:before { content: '\e60a'; }
+.icon-liked:before { content: '\e60b'; }
+.card-video-wrapper { position: relative; }
+.card-video { width: 100%; height: 300rpx; border-radius: 18rpx; object-fit: cover; }
+.video-play-icon {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  background: rgba(0,0,0,0.4); border-radius: 50%; padding: 16rpx;
+}
+.icon-play:before { content: '\e7e3'; color: #fff; font-size: 60rpx; }
 </style> 

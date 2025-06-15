@@ -37,12 +37,6 @@
       }
     },
     {
-      "path": "pages/user/msg",
-      "style": {
-        "navigationBarTitleText": "消息"
-      }
-    },
-    {
       "path": "pages/admin/admin",
       "style": {
         "navigationBarTitleText": "管理"
@@ -138,11 +132,23 @@
         "navigationBarTitleText": "买家须知",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/post/detail",
+      "style": {
+        "navigationBarTitleText": "帖子详情"
+      }
+    },
+    {
+      "path": "pages/change/editprofile",
+      "style": {
+        "navigationBarTitleText": "编辑个人资料"
+      }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "红笔记",
+    "navigationBarTitleText": "旅行日记",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
@@ -168,12 +174,6 @@
         "text": "发布",
         "iconPath": "static/tabbar/post.png",
         "selectedIconPath": "static/tabbar/post.png"
-      },
-      {
-        "pagePath": "pages/user/msg",
-        "text": "消息",
-        "iconPath": "static/tabbar/msg.png",
-        "selectedIconPath": "static/tabbar/msg.png"
       },
       {
         "pagePath": "pages/user/my",

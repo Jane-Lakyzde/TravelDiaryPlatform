@@ -9,7 +9,6 @@ if (!Math) {
   "./pages/user/find.js";
   "./pages/user/my.js";
   "./pages/user/post.js";
-  "./pages/user/msg.js";
   "./pages/admin/admin.js";
   "./pages/admin/approve.js";
   "./pages/admin/reject.js";
@@ -30,6 +29,8 @@ if (!Math) {
   "./pages/agreement/user-agreement.js";
   "./pages/agreement/privacy-policy.js";
   "./pages/agreement/buyer-notice.js";
+  "./pages/post/detail.js";
+  "./pages/change/editprofile.js";
 }
 const pages = [
   "pages/home/index",

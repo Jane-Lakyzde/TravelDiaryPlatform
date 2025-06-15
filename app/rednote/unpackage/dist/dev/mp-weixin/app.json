@@ -6,7 +6,6 @@
     "pages/user/find",
     "pages/user/my",
     "pages/user/post",
-    "pages/user/msg",
     "pages/admin/admin",
     "pages/admin/approve",
     "pages/admin/reject",
@@ -26,11 +25,13 @@
     "pages/sidebar/settings/index",
     "pages/agreement/user-agreement",
     "pages/agreement/privacy-policy",
-    "pages/agreement/buyer-notice"
+    "pages/agreement/buyer-notice",
+    "pages/post/detail",
+    "pages/change/editprofile"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "红笔记",
+    "navigationBarTitleText": "旅行日记",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
@@ -56,12 +57,6 @@
         "text": "发布",
         "iconPath": "static/tabbar/post.png",
         "selectedIconPath": "static/tabbar/post.png"
-      },
-      {
-        "pagePath": "pages/user/msg",
-        "text": "消息",
-        "iconPath": "static/tabbar/msg.png",
-        "selectedIconPath": "static/tabbar/msg.png"
       },
       {
         "pagePath": "pages/user/my",

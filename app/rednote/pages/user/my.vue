@@ -1,9 +1,9 @@
 <template>
-  <view class="insta-home">
+  <view class="home">
     <!-- 顶部栏 -->
-    <view class="insta-header">
-      <text class="insta-username">{{ userInfo.email }}</text>
-      <view class="insta-header-icons">
+    <view class="header">
+      <text class="username">{{ userInfo.email }}</text>
+      <view class="header-icons">
         <text class="iconfont icon-1"></text>
         <text class="iconfont icon-2"></text>
         <text class="iconfont icon-3" @tap="handleLogout"></text>
@@ -11,78 +11,59 @@
     </view>
 
     <!-- 头像与统计 -->
-    <view class="insta-profile-row">
-      <view class="insta-avatar-box">
-        <image class="insta-avatar" :src="userInfo.avatar" />
+    <view class="profile-row">
+      <view class="avatar-box" @tap="chooseAvatar">
+        <image class="avatar" :src="userInfo.avatar || '/static/images/touxiang.jpg'" />
       </view>
-      <view class="insta-stats">
-        <view class="insta-stat"><text class="stat-num">{{ userInfo.posts }}</text><text class="stat-label">帖子</text></view>
-        <view class="insta-stat"><text class="stat-num">{{ userInfo.followers }}</text><text class="stat-label">粉丝</text></view>
-        <view class="insta-stat"><text class="stat-num">{{ userInfo.following }}</text><text class="stat-label">关注</text></view>
+      <view class="stats">
+        <view class="stat"><text class="stat-num">{{ userInfo.posts || 0 }}</text><text class="stat-label">帖子</text></view>
+        <view class="stat"><text class="stat-num">{{ userInfo.followers || 0 }}</text><text class="stat-label">粉丝</text></view>
+        <view class="stat"><text class="stat-num">{{ userInfo.following || 0 }}</text><text class="stat-label">关注</text></view>
       </view>
     </view>
-    <view class="insta-nickname">{{ userInfo.username }}</view>
-    <view class="insta-bio">{{ userInfo.bio }}</view>
-    <view class="insta-btn-row">
-      <button class="insta-btn-edit">编辑主页</button>
-      <button class="insta-btn-share">分享主页</button>
-      <button class="insta-btn-add"><text class="iconfont icon-add"></text></button>
+    <view class="nickname">{{ userInfo.username }}</view>
+    <view class="bio">{{ userInfo.bio || '这个人很懒，什么都没写~' }}</view>
+    <view class="btn-row">
+      <button class="btn-edit" @tap="handleEditProfile">编辑主页</button>
+      <button class="btn-share">分享主页</button>
+      <button class="btn-add" @tap="() => uni.navigateTo({ url: '/pages/user/post' })">
+        <text class="iconfont icon-add"></text>
+      </button>
     </view>
-
-    <!-- 发现用户推荐 -->
-    <view class="insta-recommend-row">
-      <text class="insta-recommend-title">发现用户</text>
-      <text class="insta-recommend-more">显示全部</text>
-    </view>
-    <scroll-view class="insta-recommend-list" scroll-x>
-      <view
-        v-for="user in recommendedUsers"
-        :key="user.id"
-        class="insta-recommend-card"
-      >
-        <image :src="user.avatar" class="recommend-avatar" />
-        <text class="recommend-name">{{ user.username }}</text>
-        <text class="recommend-desc">{{ user.desc }}</text>
-        <button class="recommend-btn">关注</button>
-      </view>
-      <!-- 尾部留白 -->
-      <view style="width: 30rpx; flex-shrink: 0;"></view>
-    </scroll-view>
 
     <!-- 我的帖子/视频 tab -->
-    <view class="insta-tab-row">
+    <view class="tab-row">
       <view
-        class="insta-tab-btn"
+        class="tab-btn"
         :class="{ active: activeTab === 'post' }"
         @tap="activeTab = 'post'"
       >
-        <text class="iconfont">图标</text>
-        <text>帖子</text>
+        <text class="iconfont icon-tupian"></text>
       </view>
       <view
-        class="insta-tab-btn"
+        class="tab-btn"
         :class="{ active: activeTab === 'video' }"
         @tap="activeTab = 'video'"
       >
-        <text class="iconfont">图标</text>
-        <text>视频</text>
+        <text class="iconfont icon-shipin"></text>
       </view>
     </view>
 
     <!-- 九宫格内容 -->
-    <view v-if="activeTab === 'post'" class="insta-posts-grid">
+    <view v-if="activeTab === 'post'" class="posts-grid">
       <image
-        v-for="img in myPosts"
-        :key="img.id"
-        :src="img.images[0]"
-        class="insta-post-img"
+        v-for="post in myPosts"
+        :key="post.id"
+        :src="post.images[0]"
+        class="post-img"
+        @tap="viewPostDetail(post.id)"
       />
     </view>
-    <view v-else class="insta-posts-grid">
+    <view v-else class="posts-grid">
       <view
         v-for="video in myVideos"
         :key="video.id"
-        class="insta-post-img insta-video-thumb"
+        class="post-img video-thumb"
       >
         <image :src="video.cover" class="video-cover" />
         <view class="video-icon"><text class="iconfont">▶</text></view>
@@ -92,31 +73,55 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '@/store/modules/user'
+import { usePostStore } from '@/store/modules/post'
 
 const userStore = useUserStore()
+const postStore = usePostStore()
 const activeTab = ref('post')
 
 // 从 Pinia 获取用户信息
 const userInfo = computed(() => userStore.getUserInfo)
 
-const recommendedUsers = ref([
-  { id: 1, avatar: 'https://placeholder.com/80x80', username: 'xiaox.iao04', desc: '已关注 kelsey041121' },
-  { id: 2, avatar: 'https://placeholder.com/80x80', username: 'Luna', desc: '为你推荐' },
-  { id: 3, avatar: 'https://placeholder.com/80x80', username: 'Cat', desc: '粉丝推荐' }
-])
+// 获取我的帖子列表
+const myPosts = computed(() => {
+  return postStore.posts.filter(post => post.author.username === userInfo.value.username)
+})
 
-const myPosts = ref([
-  { id: 1, images: ['https://placeholder.com/300x300'] },
-  { id: 2, images: ['https://placeholder.com/300x300'] },
-  { id: 3, images: ['https://placeholder.com/300x300'] }
-])
+// 编辑主页
+const handleEditProfile = () => {
+  uni.showActionSheet({
+    itemList: ['编辑个人资料', '修改头像'],
+    success: (res) => {
+      switch (res.tapIndex) {
+        case 0:
+          uni.navigateTo({ url: '/pages/change/editprofile' })
+          break
+        case 1:
+          chooseAvatar()
+          break
+      }
+    }
+  })
+}
 
-const myVideos = ref([
-  { id: 1, cover: 'https://placeholder.com/300x300' },
-  { id: 2, cover: 'https://placeholder.com/300x300' }
-])
+// 选择头像
+const chooseAvatar = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['compressed'],
+    sourceType: ['album', 'camera'],
+    success: (res) => {
+      const tempFilePath = res.tempFilePaths[0]
+      // 更新用户头像
+      userStore.updateUserInfo({
+        ...userInfo.value,
+        avatar: tempFilePath
+      })
+    }
+  })
+}
 
 // 退出登录方法
 const handleLogout = () => {
@@ -133,98 +138,53 @@ const handleLogout = () => {
     }
   })
 }
+
+// 查看帖子详情
+const viewPostDetail = (postId) => {
+  uni.navigateTo({
+    url: `/pages/post/detail?id=${postId}`
+  })
+}
 </script>
 
 <style>
-.insta-home { background: #fff; min-height: 100vh; }
-.insta-header {
+.home { background: #fff; min-height: 100vh; }
+.header {
   display: flex; justify-content: space-between; align-items: center;
   padding: 30rpx 30rpx 0 30rpx;
 }
-.insta-username { font-size: 36rpx; font-weight: bold; }
-.insta-header-icons text { font-size: 40rpx; margin-left: 30rpx; }
-.insta-profile-row { display: flex; align-items: center; padding: 30rpx; }
-.insta-avatar-box { position: relative; }
-.insta-avatar { width: 140rpx; height: 140rpx; border-radius: 50%; }
-.insta-avatar-note {
+.username { font-size: 36rpx; font-weight: bold; }
+.header-icons text { font-size: 40rpx; margin-left: 30rpx; }
+.profile-row { display: flex; align-items: center; padding: 30rpx; }
+.avatar-box { position: relative; }
+.avatar { width: 140rpx; height: 140rpx; border-radius: 50%; }
+.avatar-note {
   position: absolute; left: 0; top: 0; background: #fff; color: #888;
   font-size: 22rpx; border-radius: 20rpx; padding: 4rpx 16rpx;
 }
-.insta-stats { display: flex; margin-left: 60rpx; }
-.insta-stat { align-items: center; margin-right: 50rpx; }
+.stats { display: flex; margin-left: 60rpx; }
+.stat { align-items: center; margin-right: 50rpx; }
 .stat-num { font-size: 36rpx; font-weight: bold; text-align: center; }
 .stat-label { font-size: 24rpx; color: #888; text-align: center; }
-.insta-nickname { font-size: 30rpx; font-weight: bold; margin-left: 30rpx; }
-.insta-bio { font-size: 26rpx; color: #666; margin-left: 30rpx; margin-bottom: 20rpx; }
-.insta-btn-row { display: flex; margin: 0 30rpx 20rpx 30rpx; }
-.insta-btn-edit, .insta-btn-share {
+.nickname { font-size: 30rpx; font-weight: bold; margin-left: 30rpx; }
+.bio { font-size: 26rpx; color: #666; margin-left: 30rpx; margin-bottom: 20rpx; }
+.btn-row { display: flex; margin: 0 30rpx 20rpx 30rpx; }
+.btn-edit, .btn-share {
   flex: 1; margin-right: 20rpx; background: #f5f5f5; color: #222; border-radius: 16rpx;
   font-size: 28rpx; height: 60rpx; line-height: 60rpx;
 }
-.insta-btn-share { margin-right: 0; }
-.insta-btn-add { width: 60rpx; height: 60rpx; border-radius: 50%; background: #f5f5f5; margin-left: 20rpx; }
-.insta-recommend-row { display: flex; justify-content: space-between; align-items: center; margin: 0 30rpx 10rpx 30rpx; }
-.insta-recommend-title { font-size: 28rpx; font-weight: bold; }
-.insta-recommend-more { color: #409eff; font-size: 26rpx; }
-.insta-recommend-list {
-  display: flex;
-  flex-direction: row;
-  padding-left: 30rpx;
-  margin-bottom: 20rpx;
-  /* 让scroll-view内容高度自适应卡片 */
-  height: 220rpx;
-}
-.insta-recommend-card {
-  width: 180rpx;
-  height: 220rpx;
-  background: #fff;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 8rpx #eee;
-  margin-right: 20rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.recommend-avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-  margin-bottom: 10rpx;
-}
-.recommend-name {
-  font-size: 26rpx;
-  font-weight: bold;
-  margin-bottom: 2rpx;
-}
-.recommend-desc {
-  font-size: 22rpx;
-  color: #888;
-  margin-bottom: 10rpx;
-}
-.recommend-btn {
-  width: 120rpx;
-  height: 44rpx;
-  background: #0099ff;
-  color: #fff;
-  border-radius: 22rpx;
-  font-size: 24rpx;
-  line-height: 44rpx;
-  text-align: center;
-  margin-top: 4rpx;
-  padding: 0;
-}
+.btn-share { margin-right: 0; }
+.btn-add { width: 60rpx; height: 60rpx; border-radius: 50%; background: #f5f5f5; margin-left: 20rpx; }
 
 /* tab切换区 */
-.insta-tab-row {
+.tab-row {
   display: flex;
   border-top: 1rpx solid #eee;
   border-bottom: 1rpx solid #eee;
   margin-bottom: 10rpx;
   background: #fff;
 }
-.insta-tab-btn {
+.tab-btn {
   flex: 1;
   text-align: center;
   padding: 20rpx 0;
@@ -236,11 +196,11 @@ const handleLogout = () => {
   justify-content: center;
   position: relative;
 }
-.insta-tab-btn.active {
+.tab-btn.active {
   color: #222;
   font-weight: bold;
 }
-.insta-tab-btn.active::after {
+.tab-btn.active::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -253,12 +213,12 @@ const handleLogout = () => {
 }
 
 /* 九宫格内容 */
-.insta-posts-grid {
+.posts-grid {
   display: flex;
   flex-wrap: wrap;
   margin: 0 10rpx 100rpx 10rpx;
 }
-.insta-post-img {
+.post-img {
   width: 25%;
   height: 25%;
   aspect-ratio: 1/1;
@@ -268,13 +228,13 @@ const handleLogout = () => {
   background: #eee;
   position: relative;
 }
-.insta-video-thumb .video-cover {
+.video-thumb .video-cover {
   width: 25%;
   height: 25%;
   border-radius: 8rpx;
   object-fit: cover;
 }
-.insta-video-thumb .video-icon {
+.video-thumb .video-icon {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -289,4 +249,15 @@ const handleLogout = () => {
   align-items: center;
   justify-content: center;
 }
+/* 图标字体 */
+@font-face {
+  font-family: 'iconfont';
+  src: url('/static/fonts/iconfont.ttf') format('woff2');
+}
+.iconfont {
+  font-family: 'iconfont';
+  font-size: 32rpx;
+}
+.icon-tupian ::before{ content: '\e609'}
+.icon-shipin ::before{ content: '\e64a'}
 </style>

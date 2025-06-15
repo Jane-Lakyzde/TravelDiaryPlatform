@@ -25,13 +25,27 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
+    /**
+     * 设置用户token
+     *
+     * @param {string} token - 用户token
+     */
     setToken(token) {
       this.token = token
       uni.setStorageSync('token', token)
     },
 
     setUserInfo(userInfo) {
-      this.userInfo = userInfo
+      const defaultInfo = {
+        email: '',
+        username: '',
+        avatar: '',
+        bio: '',
+        posts: 0,
+        followers: 0,
+        following: 0
+      }
+      this.userInfo = { ...defaultInfo, ...userInfo }
       uni.setStorageSync('userInfo', userInfo)
     },
 
@@ -71,8 +85,22 @@ export const useUserStore = defineStore('user', {
     },
 
     // 更新用户信息
-    updateUserInfo(userInfo) {
-      this.setUserInfo(userInfo)
+    updateUserInfo(newInfo) {
+      this.userInfo = newInfo;
+    },
+
+    // 更新帖子数量
+    updatePostsCount(count) {
+      if (this.userInfo) {
+        this.userInfo.posts = count
+        // 保存到本地存储
+        uni.setStorageSync('userInfo', this.userInfo)
+      }
+    },
+
+    // 获取用户信息
+    getUserInfo() {
+      return this.userInfo
     },
 
     // 退出登录

@@ -7,7 +7,7 @@
 import { MOCK_ENABLED, mockRequest } from './mock';
 
 // 服务器API基础URL，根据实际环境配置
-const BASE_URL = 'https://api.example.com'; // 替换为你的实际API地址
+const BASE_URL = 'https://127.0.0.1.3000'; // 替换为你的实际API地址
 
 // 创建请求对象
 const http = {

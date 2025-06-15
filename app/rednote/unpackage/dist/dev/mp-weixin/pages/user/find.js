@@ -22,7 +22,7 @@ const _sfc_main = {
         posts: 256,
         followers: 2048,
         following: 512,
-        isFollowing: true
+        isFollowing: false
       },
       {
         id: "user003",

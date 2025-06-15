@@ -1,4 +1,4 @@
-import http from '../utils/request'
+import http from '../utils/request.js'
 
 // 微信登录
 export function login(data) {

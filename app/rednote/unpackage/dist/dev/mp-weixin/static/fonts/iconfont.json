@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11239035",
+      "name": "评论",
+      "font_class": "pinglun2",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "13695538",
+      "name": "已收藏",
+      "font_class": "yishoucang",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "43184829",
+      "name": "分享",
+      "font_class": "fenxiang",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "1503737",
+      "name": "视频",
+      "font_class": "shipin",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "33762230",
+      "name": "九宫格",
+      "font_class": "jiugongge",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
       "icon_id": "4354835",
       "name": "闭眼睛",
       "font_class": "biyanjing",

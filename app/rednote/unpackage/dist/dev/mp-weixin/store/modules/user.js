@@ -23,12 +23,26 @@ const useUserStore = common_vendor.defineStore("user", {
     getAvatar: (state) => state.userInfo.avatar
   },
   actions: {
+    /**
+     * 设置用户token
+     *
+     * @param {string} token - 用户token
+     */
     setToken(token) {
       this.token = token;
       common_vendor.index.setStorageSync("token", token);
     },
     setUserInfo(userInfo) {
-      this.userInfo = userInfo;
+      const defaultInfo = {
+        email: "",
+        username: "",
+        avatar: "",
+        bio: "",
+        posts: 0,
+        followers: 0,
+        following: 0
+      };
+      this.userInfo = { ...defaultInfo, ...userInfo };
       common_vendor.index.setStorageSync("userInfo", userInfo);
     },
     setLoginStatus(status) {
@@ -64,8 +78,19 @@ const useUserStore = common_vendor.defineStore("user", {
       }
     },
     // 更新用户信息
-    updateUserInfo(userInfo) {
-      this.setUserInfo(userInfo);
+    updateUserInfo(newInfo) {
+      this.userInfo = newInfo;
+    },
+    // 更新帖子数量
+    updatePostsCount(count) {
+      if (this.userInfo) {
+        this.userInfo.posts = count;
+        common_vendor.index.setStorageSync("userInfo", this.userInfo);
+      }
+    },
+    // 获取用户信息
+    getUserInfo() {
+      return this.userInfo;
     },
     // 退出登录
     logout() {

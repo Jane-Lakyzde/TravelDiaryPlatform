@@ -1,14 +1,16 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const data_posts = require("../../data/posts.js");
+const common_assets = require("../../common/assets.js");
+const store_modules_post = require("../../store/modules/post.js");
 const _sfc_main = {
   __name: "home",
   setup(__props) {
+    const postStore = store_modules_post.usePostStore();
     common_vendor.ref("");
     const showSidebar = common_vendor.ref(false);
     const activeTab = common_vendor.ref("discover");
     const posts = common_vendor.computed(() => {
-      return activeTab.value === "discover" ? data_posts.getDiscoverPosts() : data_posts.getFollowedPosts();
+      return postStore.posts;
     });
     const leftPosts = common_vendor.computed(() => {
       const allPosts = posts.value;
@@ -20,6 +22,11 @@ const _sfc_main = {
       const midIndex = Math.ceil(allPosts.length / 2);
       return allPosts.slice(midIndex);
     });
+    const viewPostDetail = (postId) => {
+      common_vendor.index.navigateTo({
+        url: `/pages/post/detail?id=${postId}`
+      });
+    };
     const toggleSidebar = () => {
       showSidebar.value = !showSidebar.value;
     };
@@ -39,7 +46,7 @@ const _sfc_main = {
       closeSidebar();
     };
     common_vendor.onMounted(() => {
-      const allPosts = data_posts.initialPosts;
+      const allPosts = initialPosts;
       const midIndex = Math.ceil(allPosts.length / 2);
       leftPosts.value = allPosts.slice(0, midIndex);
       rightPosts.value = allPosts.slice(midIndex);
@@ -76,24 +83,40 @@ const _sfc_main = {
         z: activeTab.value === "discover"
       }, activeTab.value === "discover" ? {
         A: common_vendor.f(leftPosts.value, (post, k0, i0) => {
-          return {
-            a: post.cover,
-            b: common_vendor.t(post.title),
-            c: post.avatar,
-            d: common_vendor.t(post.author),
-            e: common_vendor.t(post.likes),
-            f: post.id
-          };
+          return common_vendor.e({
+            a: post.video
+          }, post.video ? {
+            b: post.video,
+            c: common_assets._imports_0$1
+          } : {
+            d: post.images[0]
+          }, {
+            e: common_vendor.t(post.title),
+            f: post.author.avatar,
+            g: common_vendor.t(post.author.username),
+            h: common_vendor.n(post.isLiked ? "icon-liked" : "icon-like"),
+            i: common_vendor.t(post.likes),
+            j: post.id,
+            k: common_vendor.o(($event) => viewPostDetail(post.id), post.id)
+          });
         }),
         B: common_vendor.f(rightPosts.value, (post, k0, i0) => {
-          return {
-            a: post.cover,
-            b: common_vendor.t(post.title),
-            c: post.avatar,
-            d: common_vendor.t(post.author),
-            e: common_vendor.t(post.likes),
-            f: post.id
-          };
+          return common_vendor.e({
+            a: post.video
+          }, post.video ? {
+            b: post.video,
+            c: common_assets._imports_0$1
+          } : {
+            d: post.images[0]
+          }, {
+            e: common_vendor.t(post.title),
+            f: post.author.avatar,
+            g: common_vendor.t(post.author.username),
+            h: common_vendor.n(post.isLiked ? "icon-liked" : "icon-like"),
+            i: common_vendor.t(post.likes),
+            j: post.id,
+            k: common_vendor.o(($event) => viewPostDetail(post.id), post.id)
+          });
         })
       } : {
         C: common_vendor.f(leftPosts.value, (post, k0, i0) => {

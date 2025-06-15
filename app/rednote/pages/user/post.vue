@@ -1,94 +1,78 @@
 <template>
   <view class="post-container">
-    <view class="header">
-      <view class="header-left">
-        <button class="btn-text" @tap="handleCancel">取消</button>
+
+    <!-- 图片选择区 -->
+    <scroll-view scroll-x class="image-scroll">
+      <view class="image-list">
+        <view v-for="(image, index) in imageList" :key="index" class="image-item">
+          <image :src="image.url" mode="aspectFill" class="image-thumb" />
+        </view>
+        <view v-if="imageList.length < 9" class="image-add" @tap="chooseImage">
+          <text class="iconfont icon-plus"></text>
+        </view>
       </view>
-      <view class="header-title">发布帖子</view>
-      <view class="header-right">
-        <button 
-          class="btn-primary" 
-          @tap="handlePublish" 
-          :disabled="!canPublish"
-        >
-          发布
-        </button>
+    </scroll-view>
+
+    <!-- 标题、正文输入 -->
+    <view class="inputs">
+      <input v-model="title" class="title" placeholder="添加标题" maxlength="50" />
+      <textarea v-model="content" class="content" placeholder="添加正文" maxlength="500" />
+    </view>
+
+    <!-- 功能按钮区 -->
+    <view class="func-btns">
+      <view class="func-btn"><text class="iconfont">#</text> 话题</view>
+      <view class="func-btn"><text class="iconfont">@</text> 用户</view>
+      <view class="func-btn"><text class="iconfont">🗳️</text> 投票</view>
+    </view>
+
+    <!-- 列表项 -->
+    <view class="list">
+      <view class="list-item" @tap="chooseLocation">
+        <text class="iconfont icon-location"></text>
+        <text class="list-label">标记地点</text>
+        <text class="list-value">{{ location || '' }}</text>
+        <text class="iconfont icon-arrow"></text>
+      </view>
+      <view class="list-item">
+        <text class="iconfont icon-lock"></text>
+        <text class="list-label">公开可见</text>
+        <text class="iconfont icon-arrow"></text>
+      </view>
+      <view class="list-item">
+        <text class="iconfont icon-setting"></text>
+        <text class="list-label">高级选项</text>
+        <text class="iconfont icon-arrow"></text>
       </view>
     </view>
 
-    <view class="post-content">
-      <view class="post-editor">
-        <textarea
-          v-model="postContent"
-          class="post-textarea"
-          placeholder="分享你的想法..."
-          maxlength="500"
-          :show-confirm-bar="false"
-          :cursor-spacing="20"
-        />
-        <view class="word-count">{{ postContent.length }}/500</view>
+    <!-- 底部操作栏 -->
+    <view class="bottom-bar">
+      <view class="bottom-btn" @tap="saveDraft">
+        <text class="iconfont icon-draft"></text>
+        存草稿
       </view>
-
-      <view class="image-uploader">
-        <view class="upload-title">添加图片</view>
-        <view class="image-list">
-          <view 
-            v-for="(image, index) in imageList" 
-            :key="index" 
-            class="image-item"
-          >
-            <image 
-              :src="image.url" 
-              mode="aspectFill" 
-              class="preview-image"
-            />
-            <view class="delete-btn" @tap="handleImageRemove(index)">
-              <text class="iconfont icon-close"></text>
-            </view>
-          </view>
-          <view 
-            v-if="imageList.length < 9" 
-            class="upload-btn"
-            @tap="chooseImage"
-          >
-            <text class="iconfont icon-plus"></text>
-          </view>
-        </view>
+      <view class="bottom-btn" @tap="previewPost">
+        <text class="iconfont icon-preview"></text>
+        预览
       </view>
-
-      <view class="post-options">
-        <view class="option-item">
-          <switch 
-            :checked="allowComments" 
-            @change="allowComments = $event.detail.value"
-            color="#007AFF"
-          />
-          <text class="option-label">允许评论</text>
-        </view>
-        <view class="option-item">
-          <switch 
-            :checked="showLocation" 
-            @change="showLocation = $event.detail.value"
-            color="#007AFF"
-          />
-          <text class="option-label">显示位置</text>
-        </view>
-      </view>
+      <button class="publish-btn" @tap="handlePublish">发布笔记</button>
     </view>
   </view>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { useUserStore } from '@/store/modules/user'
+import { usePostStore } from '@/store/modules/post'
 
-const postContent = ref('')
+const userStore = useUserStore()
+const postStore = usePostStore()
+
 const imageList = ref([])
-const allowComments = ref(true)
-const showLocation = ref(false)
-
-const canPublish = computed(() => {
-  return postContent.value.trim().length > 0 || imageList.value.length > 0
-})
+const title = ref('')
+const content = ref('')
+const location = ref('')
 
 const chooseImage = () => {
   uni.chooseImage({
@@ -96,230 +80,255 @@ const chooseImage = () => {
     sizeType: ['compressed'],
     sourceType: ['album', 'camera'],
     success: (res) => {
-      const tempFiles = res.tempFilePaths.map(path => ({
-        url: path,
-        // 这里可以添加上传逻辑
-      }))
+      const tempFiles = res.tempFilePaths.map(path => ({ url: path }))
       imageList.value.push(...tempFiles)
     }
   })
 }
 
-const handleImageRemove = (index) => {
-  imageList.value.splice(index, 1)
-}
-
-const handlePublish = () => {
-  if (!canPublish.value) return
-  
-  uni.showLoading({
-    title: '发布中...'
-  })
-  
-  // 这里添加发布逻辑
-  console.log('发布帖子:', {
-    content: postContent.value,
-    images: imageList.value,
-    allowComments: allowComments.value,
-    showLocation: showLocation.value
-  })
-  
-  // 模拟发布成功
-  setTimeout(() => {
-    uni.hideLoading()
-    uni.showToast({
-      title: '发布成功',
-      icon: 'success',
-      duration: 2000
-    })
-    setTimeout(() => {
-      uni.navigateBack()
-    }, 2000)
-  }, 1500)
-}
-
-const handleCancel = () => {
-  uni.showModal({
-    title: '提示',
-    content: '确定要放弃编辑吗？',
-    success: (res) => {
-      if (res.confirm) {
-        uni.navigateBack()
-      }
+const chooseLocation = () => {
+  uni.getLocation({
+    type: 'wgs84',
+    success: () => {
+      uni.chooseLocation({
+        success: (res) => {
+          location.value = res.name
+        }
+      })
     }
   })
 }
+
+const saveDraft = () => {
+  uni.showToast({ title: '已存为草稿', icon: 'none' })
+}
+
+const previewPost = () => {
+  uni.showToast({ title: '预览功能开发中', icon: 'none' })
+}
+
+const handlePublish = async () => {
+  try {
+    if (!title.value.trim()) {
+      uni.showToast({ title: '请输入标题', icon: 'none' })
+      return
+    }
+    if (!content.value.trim()) {
+      uni.showToast({ title: '请输入正文', icon: 'none' })
+      return
+    }
+    if (imageList.value.length === 0) {
+      uni.showToast({ title: '请至少上传一张图片', icon: 'none' })
+      return
+    }
+
+    // 创建帖子对象
+    const newPost = {
+      id: Date.now().toString(),
+      title: title.value,
+      content: content.value,
+      images: imageList.value.map(image => image.url),
+      location: location.value,
+      author: {
+        username: userStore.getUserInfo.username,
+        avatar: userStore.getUserInfo.avatar
+      },
+      createTime: new Date().toLocaleString(),
+      likes: 0,
+      isLiked: false
+    }
+
+    // 直接添加到 post store
+    postStore.addPost(newPost)
+    
+    // 更新用户帖子数量
+    const currentPosts = userStore.getUserInfo.posts || 0
+    userStore.updatePostsCount(currentPosts + 1)
+
+    // 清空表单
+    title.value = ''
+    content.value = ''
+    imageList.value = []
+    location.value = ''
+
+    uni.showToast({ title: '发布成功', icon: 'success' })
+    uni.switchTab({ url: '/pages/user/my' })
+  } catch (error) {
+    console.error('发布失败:', error)
+    uni.showToast({ title: '发布失败，请重试', icon: 'none' })
+  }
+}
+
 </script>
 
 <style>
 .post-container {
   min-height: 100vh;
-  background-color: #ffffff;
+  background: #fff;
   display: flex;
   flex-direction: column;
+  padding-bottom: 160rpx;
 }
-
 .header {
+  height: 80rpx;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20rpx;
-  border-bottom: 1rpx solid #eeeeee;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #ffffff;
-  z-index: 100;
+  padding-left: 20rpx;
 }
+.icon-back:before { content: '\2039'; font-size: 48rpx; color: #222; }
 
-.header-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333333;
-}
-
-.btn-text {
-  font-size: 28rpx;
-  color: #666666;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.btn-primary {
-  font-size: 28rpx;
-  color: #ffffff;
-  background-color: #007AFF;
-  border: none;
-  padding: 10rpx 30rpx;
-  border-radius: 30rpx;
-}
-
-.btn-primary[disabled] {
-  background-color: #cccccc;
-  color: #ffffff;
-}
-
-.post-content {
-  margin-top: 100rpx;
-  padding: 30rpx;
-}
-
-.post-editor {
-  margin-bottom: 40rpx;
-  position: relative;
-}
-
-.post-textarea {
-  width: 100%;
-  height: 200rpx;
-  padding: 20rpx;
-  font-size: 28rpx;
-  line-height: 1.5;
-  background-color: #f5f5f5;
-  border-radius: 12rpx;
-}
-
-.word-count {
-  position: absolute;
-  right: 20rpx;
-  bottom: 20rpx;
-  font-size: 24rpx;
-  color: #999999;
-}
-
-.image-uploader {
-  margin-bottom: 40rpx;
-}
-
-.upload-title {
-  font-size: 28rpx;
-  color: #666666;
+.image-scroll {
+  width: 100vw;
+  margin-top: 10rpx;
   margin-bottom: 20rpx;
 }
-
 .image-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20rpx;
+  align-items: center;
+  padding-left: 20rpx;
+  flex-wrap: nowrap; 
 }
-
 .image-item {
-  width: 200rpx;
-  height: 200rpx;
-  position: relative;
+  width: 140rpx;
+  height: 140rpx;
+  margin-right: 20rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: #f5f5f5;
+  flex-shrink: 0;
 }
-
-.preview-image {
+.image-thumb {
   width: 100%;
   height: 100%;
-  border-radius: 8rpx;
+  border-radius: 16rpx;
 }
-
-.delete-btn {
-  position: absolute;
-  top: -20rpx;
-  right: -20rpx;
-  width: 40rpx;
-  height: 40rpx;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
+.image-add {
+  width: 140rpx;
+  height: 140rpx;
+  background: #fafbfc;
+  border: 2rpx dashed #e5e5e5;
+  border-radius: 16rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #ccc;
+  font-size: 60rpx;
+  flex-shrink: 0;
+}
+.icon-plus:before { content: '+'; font-size: 60rpx; color: #ccc; }
+.inputs {
+  padding: 0 32rpx;
+  margin-bottom: 30rpx;
+  margin-top: 15rpx;
+}
+.title {
+  width: 100%;
+  font-size: 36rpx;
+  color: #bbb;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+  border: none;
+  background: none;
+  padding-bottom: 10rpx;
+}
+.content {
+  width: 100%;
+  min-height: 100rpx;
+  font-size: 28rpx;
+  color: #bbb;
+  border: none;
+  background: none;
 }
 
-.delete-btn text {
-  color: #ffffff;
-  font-size: 24rpx;
+.tags-scroll {
+  width: 100vw;
+  margin-bottom: 10rpx;
 }
-
-.upload-btn {
-  width: 200rpx;
-  height: 200rpx;
-  background-color: #f5f5f5;
-  border-radius: 8rpx;
+.tags-list {
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding-left: 20rpx;
+}
+.tag {
+  background: #f5f5f5;
+  color: #888;
+  font-size: 26rpx;
+  border-radius: 32rpx;
+  padding: 10rpx 28rpx;
+  margin-right: 16rpx;
 }
 
-.upload-btn text {
-  font-size: 48rpx;
-  color: #999999;
+.func-btns {
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+  margin-bottom: 10rpx;
+}
+.func-btn {
+  background: #f5f5f5;
+  color: #888;
+  font-size: 28rpx;
+  border-radius: 32rpx;
+  padding: 10rpx 28rpx;
+  margin-right: 16rpx;
+  display: flex;
+  align-items: center;
 }
 
-.post-options {
+.list {
+  margin: 20rpx 0 0 0;
+  background: #fff;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  font-size: 30rpx;
+  color: #333;
+}
+.list-item:last-child { border-bottom: none; }
+.list-label { margin-left: 16rpx; color: #333; }
+.list-value { flex: 1; color: #888; margin-left: 20rpx; }
+.icon-location:before { content: '\1F4CD'; margin-right: 8rpx; }
+.icon-lock:before { content: '\1F512'; margin-right: 8rpx; }
+.icon-setting:before { content: '\2699'; margin-right: 8rpx; }
+.icon-arrow:before { content: '\203A'; color: #bbb; margin-left: 8rpx; }
+
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 32rpx 40rpx 32rpx;
+  z-index: 100;
+}
+.bottom-btn {
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
-  padding: 30rpx 0;
-  border-top: 1rpx solid #eeeeee;
+  align-items: center;
+  color: #888;
+  font-size: 24rpx;
+  margin-right: 32rpx;
 }
-
-.option-item {
+.icon-draft:before { content: '\1F4E5'; font-size: 36rpx; }
+.icon-preview:before { content: '\1F441'; font-size: 36rpx; }
+.publish-btn {
+  flex: 1;
+  margin-left: 32rpx;
+  height: 88rpx;
+  background: #DB9EA2;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
   display: flex;
   align-items: center;
-  gap: 20rpx;
+  justify-content: center;
+  border: none;
 }
-
-.option-label {
-  font-size: 28rpx;
-  color: #333333;
-}
-
-/* 图标字体 */
-@font-face {
-  font-family: 'iconfont';
-  src: url('//at.alicdn.com/t/font_xxx.woff2') format('woff2');
-}
-
-.iconfont {
-  font-family: 'iconfont';
-}
-
-.icon-plus:before { content: '\e6da'; }
-.icon-close:before { content: '\e6e7'; }
 </style>
   

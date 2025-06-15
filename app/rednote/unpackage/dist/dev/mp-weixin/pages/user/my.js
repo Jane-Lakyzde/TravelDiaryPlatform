@@ -1,26 +1,46 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const store_modules_user = require("../../store/modules/user.js");
+const store_modules_post = require("../../store/modules/post.js");
 const _sfc_main = {
   __name: "my",
   setup(__props) {
     const userStore = store_modules_user.useUserStore();
+    const postStore = store_modules_post.usePostStore();
     const activeTab = common_vendor.ref("post");
     const userInfo = common_vendor.computed(() => userStore.getUserInfo);
-    const recommendedUsers = common_vendor.ref([
-      { id: 1, avatar: "https://placeholder.com/80x80", username: "xiaox.iao04", desc: "已关注 kelsey041121" },
-      { id: 2, avatar: "https://placeholder.com/80x80", username: "Luna", desc: "为你推荐" },
-      { id: 3, avatar: "https://placeholder.com/80x80", username: "Cat", desc: "粉丝推荐" }
-    ]);
-    const myPosts = common_vendor.ref([
-      { id: 1, images: ["https://placeholder.com/300x300"] },
-      { id: 2, images: ["https://placeholder.com/300x300"] },
-      { id: 3, images: ["https://placeholder.com/300x300"] }
-    ]);
-    const myVideos = common_vendor.ref([
-      { id: 1, cover: "https://placeholder.com/300x300" },
-      { id: 2, cover: "https://placeholder.com/300x300" }
-    ]);
+    const myPosts = common_vendor.computed(() => {
+      return postStore.posts.filter((post) => post.author.username === userInfo.value.username);
+    });
+    const handleEditProfile = () => {
+      common_vendor.index.showActionSheet({
+        itemList: ["编辑个人资料", "修改头像"],
+        success: (res) => {
+          switch (res.tapIndex) {
+            case 0:
+              common_vendor.index.navigateTo({ url: "/pages/change/editprofile" });
+              break;
+            case 1:
+              chooseAvatar();
+              break;
+          }
+        }
+      });
+    };
+    const chooseAvatar = () => {
+      common_vendor.index.chooseImage({
+        count: 1,
+        sizeType: ["compressed"],
+        sourceType: ["album", "camera"],
+        success: (res) => {
+          const tempFilePath = res.tempFilePaths[0];
+          userStore.updateUserInfo({
+            ...userInfo.value,
+            avatar: tempFilePath
+          });
+        }
+      });
+    };
     const handleLogout = () => {
       common_vendor.index.showModal({
         title: "提示",
@@ -35,38 +55,41 @@ const _sfc_main = {
         }
       });
     };
+    const viewPostDetail = (postId) => {
+      common_vendor.index.navigateTo({
+        url: `/pages/post/detail?id=${postId}`
+      });
+    };
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.t(userInfo.value.email),
         b: common_vendor.o(handleLogout),
-        c: userInfo.value.avatar,
-        d: common_vendor.t(userInfo.value.posts),
-        e: common_vendor.t(userInfo.value.followers),
-        f: common_vendor.t(userInfo.value.following),
-        g: common_vendor.t(userInfo.value.username),
-        h: common_vendor.t(userInfo.value.bio),
-        i: common_vendor.f(recommendedUsers.value, (user, k0, i0) => {
-          return {
-            a: user.avatar,
-            b: common_vendor.t(user.username),
-            c: common_vendor.t(user.desc),
-            d: user.id
-          };
-        }),
-        j: activeTab.value === "post" ? 1 : "",
-        k: common_vendor.o(($event) => activeTab.value = "post"),
-        l: activeTab.value === "video" ? 1 : "",
-        m: common_vendor.o(($event) => activeTab.value = "video"),
-        n: activeTab.value === "post"
+        c: userInfo.value.avatar || "/static/images/touxiang.jpg",
+        d: common_vendor.o(chooseAvatar),
+        e: common_vendor.t(userInfo.value.posts || 0),
+        f: common_vendor.t(userInfo.value.followers || 0),
+        g: common_vendor.t(userInfo.value.following || 0),
+        h: common_vendor.t(userInfo.value.username),
+        i: common_vendor.t(userInfo.value.bio || "这个人很懒，什么都没写~"),
+        j: common_vendor.o(handleEditProfile),
+        k: common_vendor.o(() => _ctx.uni.navigateTo({
+          url: "/pages/user/post"
+        })),
+        l: activeTab.value === "post" ? 1 : "",
+        m: common_vendor.o(($event) => activeTab.value = "post"),
+        n: activeTab.value === "video" ? 1 : "",
+        o: common_vendor.o(($event) => activeTab.value = "video"),
+        p: activeTab.value === "post"
       }, activeTab.value === "post" ? {
-        o: common_vendor.f(myPosts.value, (img, k0, i0) => {
+        q: common_vendor.f(myPosts.value, (post, k0, i0) => {
           return {
-            a: img.id,
-            b: img.images[0]
+            a: post.id,
+            b: post.images[0],
+            c: common_vendor.o(($event) => viewPostDetail(post.id), post.id)
           };
         })
       } : {
-        p: common_vendor.f(myVideos.value, (video, k0, i0) => {
+        r: common_vendor.f(_ctx.myVideos, (video, k0, i0) => {
           return {
             a: video.cover,
             b: video.id

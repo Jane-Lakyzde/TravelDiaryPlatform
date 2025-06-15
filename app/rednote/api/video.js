@@ -1,5 +1,5 @@
 // src/api/video.js
-import http from '../axios.js'
+import http from '../utils/request.js'
 
 // 上传视频
 export const uploadVideo = (data) => {

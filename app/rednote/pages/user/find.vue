@@ -63,7 +63,7 @@ const recommendedUsers = ref([
     posts: 256,
     followers: 2048,
     following: 512,
-    isFollowing: true
+    isFollowing: false
   },
   {
     id: 'user003',
@@ -126,6 +126,7 @@ const handleFollow = (user) => {
   left: 0;
   right: 0;
   z-index: 100;
+  justify-content: center;
 }
 
 .title {
@@ -136,6 +137,7 @@ const handleFollow = (user) => {
 
 .recommend-container {
   margin-top: 100rpx;
+  margin-left: 50rpx;
   flex: 1;
   padding: 20rpx;
 }

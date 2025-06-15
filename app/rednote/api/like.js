@@ -1,5 +1,5 @@
 // src/api/like.js
-import http from '../axios.js'
+import http from '../utils/request.js'
 
 // 点赞帖子或视频
 export const like = (data) => {
